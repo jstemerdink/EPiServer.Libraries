@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Episerver.libraries by jstemerdink</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Episerver.libraries</h1>
+          <h2>Libraries for use within EPiServer projects</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/jstemerdink/EPiServer.Libraries/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/jstemerdink/EPiServer.Libraries/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/jstemerdink/EPiServer.Libraries" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="a-custom-localization-provider-for-episerver-7" class="anchor" href="#a-custom-localization-provider-for-episerver-7"><span class="octicon octicon-link"></span></a>A custom localization provider for EPiServer 7.</h1>
+
+<p>By Jeroen Stemerdink</p>
+
+<h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p>I wanted Editors to be able to change translations on their own, with no fear of loadbalancers / file replication making a mess of things. So it needed to be done within EPiServer itself, not with a plugin in admin mode, but in the content tree.</p>
+
+<p>I created three PageTypes. </p>
+
+<ul>
+<li>
+<code>TranslationContainer</code> for normal translations</li>
+<li>
+<code>CategoryTranslationContainer</code> for translations of Categories (as the xml for those translations are slightly different from a normal translation).</li>
+<li>
+<code>Translation Item</code> a translation</li>
+</ul><p>To be able to use the translations created within the website, I created a <code>TranslationProvider</code>, which is based on the XmlLocalizationProvider from EPiServer 7.</p>
+
+<p>The provider gets initialiazed through an IInitializableModule,<code>TranslationProviderInitialization</code>, so no configuration is necessary and gets its data from the “TranslationFactory”.</p>
+
+<h2>
+<a name="get-started" class="anchor" href="#get-started"><span class="octicon octicon-link"></span></a>Get started</h2>
+
+<p>You start with creating a <code>TranslationContainer</code> underneath the <code>StartPage</code>, or wherever you want. </p>
+
+<p>If you want to put the container somewhere else, you will need to set a property of type <code>PageReference</code> on the <code>StartPage</code>, surprisingly named <code>TranslationContainer</code>.</p>
+
+<p>Create containers or translation items beneath the main translation container. </p>
+
+<p>A container for category translations is best created directly underneath the main translation container.</p>
+
+<h2>
+<a name="code-specifics" class="anchor" href="#code-specifics"><span class="octicon octicon-link"></span></a>Code specifics</h2>
+
+<p>For the basics for initializing a localization provider from code read the <a href="http://sdkbeta.episerver.com/SDK-html-Container/?path=/SdkDocuments/EPiServerFramework/7/Knowledge%20Base/Developer%20Guide/Localization/CustomLocalizationProvider.htm&amp;vppRoot=/SdkDocuments//EPiServerFramework/7/Knowledge%20Base/Developer%20Guide/">SDK</a>.</p>
+
+<p>After the basic things as described in the SDK you will need to load the translations into the provider after initializing, publishing, moving and deleting. The xml that gets generated will change on these events, so the provider needs to be reloaded. Kinda like a file dependency.</p>
+
+<p>In  the initialization module you need to attach some events.</p>
+
+<ul>
+<li><code>context.InitComplete += this.InitComplete;</code></li>
+<li><code>DataFactory.Instance.PublishedPage += InstanceChangedPage;</code></li>
+<li><code>DataFactory.Instance.MovedPage += InstanceChangedPage;</code></li>
+<li><code>DataFactory.Instance.DeletedPage += InstanceChangedPage;</code></li>
+</ul><p>In the attached events I retrieve the translations as an the xml structure, in the same format as a lang file, then I load the generated xml into the <code>LanguageDocument</code> from the provider, which is  where a <code>XmlLocalizationProvider</code> stores  it’s data.</p>
+
+<pre><code>string translations = TranslationFactory.Instance.GetXDocument();
+byte[] byteArray = Encoding.Unicode.GetBytes(translations);
+
+using (MemoryStream stream = new MemoryStream(byteArray))
+{
+      this.Load(stream);
+}
+</code></pre>
+
+<p>The xml is created by looping through the translation containers and the translation items for each language the main translation container is created in. The format is that of a normal lang file.</p>
+
+<p>You can use these translations like any other translation. <code>&lt;EPiServer:Translate runat="server" Text="/jeroenstemerdink/textone" /&gt;</code></p>
+
+<p>If you want to display a translated category on your page use the <code>LocalizedDescription</code> property of the <code>Category</code>.</p>
+
+<h2>
+<a name="quirks" class="anchor" href="#quirks"><span class="octicon octicon-link"></span></a>Quirks</h2>
+
+<p>A few things you will need to keep in mind.</p>
+
+<p>When you create a translation the <code>OriginalText</code> is the key, and can only be set on the master language. To keep it simple for the editors just name them normally. 
+To reference this, use the name without spaces and special characters, all lower case, this to be in line with the langfiles.</p>
+
+<p>So if the Name of the container is e.g. <code>Jeroen Stemerdink</code>, the key in the xml will be <code>jeroenstemerdink</code>. The same applies to the translation items.</p>
+
+<p>See <code>Bonus</code> for a tip on how to get the key in an easy way.</p>
+
+<p>For translations for Categories it is slightly different. You create a <code>CategoryTranslationContainer</code> beneath the main container, this will trigger a different rendering of the xml.<br>
+You can organize the translations with subcontainers, but in the xml those subcontainers will not be used. 
+The value of the <code>OriginalText</code> property needs to be exactly the same as the name of the <code>Category</code> you want to translate.</p>
+
+<h2>
+<a name="bonus" class="anchor" href="#bonus"><span class="octicon octicon-link"></span></a>Bonus</h2>
+
+<p>On the “TranslationItem” I have added three properties you can use on a template, if you create one for a translation that is. You will not use it in the site, but it can display a few things using those properties.</p>
+
+<ul>
+<li>
+<code>MissingValues</code>:  the languages that have no translation yet.</li>
+<li>
+<code>LookupKey</code>: the key to use in e.g. the Translate WebControl.</li>
+<li>
+<code>TranslatedValues</code>:  a dictionary containing the language and the translation.</li>
+</ul><h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li>EPiServer 7</li>
+<li>log4net</li>
+<li>.Net 4.5 (You can use 4.0, but will need to change some property types, the <code>ReadOnly collections</code> on the <code>TransLationItem</code>,</li>
+</ul><h2>
+<a name="deploy" class="anchor" href="#deploy"><span class="octicon octicon-link"></span></a>Deploy</h2>
+
+<ul>
+<li>Compile the project. </li>
+<li>Drop the dll in the bin.</li>
+</ul>
+        </section>
+
+        <footer>
+          Episerver.libraries is maintained by <a href="https://github.com/jstemerdink">jstemerdink</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
