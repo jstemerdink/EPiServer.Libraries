@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EPiServer.Libraries.Localization</RootNamespace>
     <AssemblyName>EPiServer.Libraries.Localization</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,6 +54,10 @@
       <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.BaseLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="EPiServer.Configuration, Version=7.0.586.1, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.Data, Version=7.0.859.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EPiServer.Framework.7.0.859.16\lib\net40\EPiServer.Data.dll</HintPath>
@@ -63,10 +68,12 @@
       <HintPath>..\packages\EPiServer.Framework.7.0.859.16\lib\net40\EPiServer.Framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+    <Reference Include="EPiServer.Packaging">
+      <HintPath>..\References\EPiServer.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\Web\EPiServer\CommunityPlayground\Web\bin\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

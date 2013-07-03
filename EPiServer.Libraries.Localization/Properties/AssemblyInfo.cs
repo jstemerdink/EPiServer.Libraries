@@ -14,7 +14,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("EPiServer.Libraries.Localization")]
 [assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2013")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("en")]
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]

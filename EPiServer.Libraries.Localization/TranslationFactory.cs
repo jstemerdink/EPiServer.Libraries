@@ -55,6 +55,25 @@ namespace EPiServer.Libraries.Localization
 
         #endregion
 
+        #region Fields
+
+        /// <summary>
+        ///     The available languages
+        /// </summary>
+        private IEnumerable<CultureInfo> availableLanguages;
+
+        /// <summary>
+        ///     The content repository
+        /// </summary>
+        private IContentRepository contentRepository;
+
+        /// <summary>
+        ///     The translation container reference
+        /// </summary>
+        private PageReference translationContainerReference;
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -62,9 +81,6 @@ namespace EPiServer.Libraries.Localization
         /// </summary>
         private TranslationFactory()
         {
-            this.ContentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
-            this.TranslationContainerReference = this.GetTranslationContainer();
-            this.AvailableLanguages = this.GetAvailableLanguages();
         }
 
         #endregion
@@ -95,19 +111,43 @@ namespace EPiServer.Libraries.Localization
         }
 
         /// <summary>
-        /// Gets or sets the available languages.
+        ///     Gets the available languages.
         /// </summary>
-        public IEnumerable<CultureInfo> AvailableLanguages { get; set; }
+        public IEnumerable<CultureInfo> AvailableLanguages
+        {
+            get
+            {
+                return this.availableLanguages ?? (this.availableLanguages = this.GetAvailableLanguages());
+            }
+        }
 
         /// <summary>
-        ///     Gets or sets the content repository.
+        ///     Gets the reference to the translation container.
         /// </summary>
-        public IContentRepository ContentRepository { get; set; }
+        public PageReference TranslationContainerReference
+        {
+            get
+            {
+                return this.translationContainerReference
+                       ?? (this.translationContainerReference = this.GetTranslationContainer());
+            }
+        }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
-        ///     Gets or sets the reference to the translation container.
+        ///     Gets the content repository.
         /// </summary>
-        public PageReference TranslationContainerReference { get; set; }
+        private IContentRepository ContentRepository
+        {
+            get
+            {
+                return this.contentRepository
+                       ?? (this.contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>());
+            }
+        }
 
         #endregion
 
@@ -191,8 +231,9 @@ namespace EPiServer.Libraries.Localization
             foreach (TranslationItem translationItem in
                 children.Select(
                     contentReference =>
-                    this.ContentRepository.Get<PageData>(
-                        contentReference, new LanguageSelector(cultureInfo.Name))).OfType<TranslationItem>().Select(page => page))
+                    this.ContentRepository.Get<PageData>(contentReference, new LanguageSelector(cultureInfo.Name)))
+                        .OfType<TranslationItem>()
+                        .Select(page => page))
             {
                 xmlWriter.WriteStartElement("category");
                 xmlWriter.WriteAttributeString("name", translationItem.OriginalText);
@@ -263,12 +304,12 @@ namespace EPiServer.Libraries.Localization
         /// </returns>
         private IEnumerable<CultureInfo> GetAvailableLanguages()
         {
-            IEnumerable<CultureInfo> availableLanguages =
+            IEnumerable<CultureInfo> languages =
                 this.ContentRepository.GetLanguageBranches<PageData>(this.TranslationContainerReference)
                     .Select(pageData => pageData.Language)
                     .ToList();
 
-            return availableLanguages;
+            return languages;
         }
 
         /// <summary>
@@ -279,8 +320,9 @@ namespace EPiServer.Libraries.Localization
         /// </returns>
         private PageReference GetTranslationContainer()
         {
-            PageReference containerPageReference =
-                this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
+            PageReference containerPageReference = ContentReference.StartPage;
+
+            this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
                     .GetPropertyValue("TranslationContainer", ContentReference.StartPage);
 
             if (containerPageReference == ContentReference.StartPage)
@@ -288,7 +330,7 @@ namespace EPiServer.Libraries.Localization
                 Logger.Info("[Localization] No translation container specified.");
 
                 TranslationContainer containerReference =
-                    this.ContentRepository.GetChildren<TranslationContainer>(containerPageReference).FirstOrDefault();
+                    this.ContentRepository.GetChildren<PageData>(containerPageReference).OfType<TranslationContainer>().FirstOrDefault();
 
                 if (containerReference != null)
                 {

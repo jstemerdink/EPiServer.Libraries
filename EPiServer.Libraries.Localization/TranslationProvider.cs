@@ -72,7 +72,7 @@ namespace EPiServer.Libraries.Localization
         /// <summary>
         ///     Load the translations.
         /// </summary>
-        internal void LoadTranslations()
+        public void LoadTranslations()
         {
             try
             {

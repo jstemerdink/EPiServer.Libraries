@@ -115,14 +115,14 @@ namespace EPiServer.Libraries.Localization.Models
         /// <summary>
         ///     Gets the translated values for this item.
         /// </summary>
-        public ReadOnlyDictionary<string, string> TranslatedValues
+        public Dictionary<string, string> TranslatedValues
         {
             get
             {
                 PageDataCollection allLanguages = DataFactory.Instance.GetLanguageBranches(this.PageLink);
 
                 return
-                    new ReadOnlyDictionary<string, string>(
+                    new Dictionary<string, string>(
                         allLanguages.ToDictionary(
                             language => new CultureInfo(language.LanguageID).NativeName, 
                             language => ((TranslationItem)language).Translation));
