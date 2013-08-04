@@ -256,7 +256,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
         /// <summary>
         /// Render the control.
         /// </summary>
-        private Because of = () => result = CmsContext.GetRenderedControl(translate);
+        private Because of = () => result = CmsContext.GetRenderedText(translate);
 
         /// <summary>
         /// Should be the translated control.
@@ -301,7 +301,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
         /// <summary>
         /// Render the control.
         /// </summary>
-        private Because of = () => result = CmsContext.GetRenderedControl(translate);
+        private Because of = () => result = CmsContext.GetRenderedText(translate);
 
         /// <summary>
         /// Should be the translated control.
