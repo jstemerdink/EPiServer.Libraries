@@ -8,7 +8,6 @@ namespace EPiServer.Libraries.Output.Helpers
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Reflection;
 
@@ -33,28 +32,23 @@ namespace EPiServer.Libraries.Output.Helpers
         /// <returns>
         /// The page type property attribute.
         /// </returns>
-        public static DisplayAttribute GetDisplayAttribute(this PropertyInfo self)
+        public static UseInOutputAttribute GetUseInOutputAttribute(this PropertyInfo self)
         {
-            return (DisplayAttribute)Attribute.GetCustomAttribute(self, typeof(DisplayAttribute));
+            return (UseInOutputAttribute)Attribute.GetCustomAttribute(self, typeof(UseInOutputAttribute));
         }
 
         /// <summary>
         /// Gets the order value.
         /// </summary>
-        /// <param name="displayAttribute">
-        /// The display attribute.
+        /// <param name="otputAttribute">
+        /// The otput attribute.
         /// </param>
         /// <returns>
         /// The order of the property.
         /// </returns>
-        public static int GetOrderValue(this DisplayAttribute displayAttribute)
+        public static int GetOrderValue(this UseInOutputAttribute otputAttribute)
         {
-            if (displayAttribute == null)
-            {
-                return 0;
-            }
-
-            return displayAttribute.GetOrder() ?? 0;
+            return otputAttribute == null ? 0 : otputAttribute.Order;
         }
 
         /// <summary>
@@ -73,8 +67,8 @@ namespace EPiServer.Libraries.Output.Helpers
             foreach (PropertyInfo propertyInfo in
                 page.GetType()
                     .GetProperties()
-                    .OrderBy(p => p.GetDisplayAttribute().GetOrderValue())
-                    .Where(propertyInfo => propertyInfo.HasAttribute<UseInOutputAttribute>()))
+                   .Where(propertyInfo => propertyInfo.HasAttribute<UseInOutputAttribute>())
+                    .OrderBy(p => p.GetUseInOutputAttribute().GetOrderValue()))
             {
                 if (propertyInfo.PropertyType != typeof(ContentArea))
                 {
