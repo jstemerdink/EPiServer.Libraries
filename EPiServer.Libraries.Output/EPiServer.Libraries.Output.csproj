@@ -117,6 +117,7 @@
   <ItemGroup>
     <None Include="EPiServer.Libraries.snk" />
     <None Include="packages.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
