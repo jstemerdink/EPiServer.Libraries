@@ -4,6 +4,6 @@ By Jeroen Stemerdink
 
 ## Parts
 
-[A custom localization provider](EPiServer.Libraries.Localization/readme.md)
+[A custom localization provider](EPiServer.Libraries.Localization/README.md)
 
-[Enable different outputs for PageData](EPiServer.Libraries.Output/readme.md)
+[Enable different outputs for PageData](EPiServer.Libraries.Output/README.md)
