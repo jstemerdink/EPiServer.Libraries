@@ -4,6 +4,8 @@
 # User-specific files
 *.suo
 *.user
+*.DotSettings
+*.StyleCop
 *.sln.docstates
 
 # Build results
