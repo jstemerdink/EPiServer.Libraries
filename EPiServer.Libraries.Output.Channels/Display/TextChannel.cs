@@ -50,8 +50,8 @@ namespace EPiServer.Libraries.Output.Channels.Display
                 return false;
             }
 
-            return ChannelSettings.Instance.EnableTXT &&
-                context.Request.ContentType.Split(';')
+            return ChannelSettings.Instance.EnableTXT && context.Request.AcceptTypes != null &&
+                context.Request.AcceptTypes
                     .Any(t => t.Equals(OutputConstants.TextPlain, StringComparison.OrdinalIgnoreCase));
         }
 

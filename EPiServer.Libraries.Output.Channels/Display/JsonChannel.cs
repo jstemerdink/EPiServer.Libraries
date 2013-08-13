@@ -50,8 +50,8 @@ namespace EPiServer.Libraries.Output.Channels.Display
                 return false;
             }
 
-            return ChannelSettings.Instance.EnableJSON &&
-                context.Request.ContentType.Split(';')
+            return ChannelSettings.Instance.EnableJSON && context.Request.AcceptTypes != null &&
+                context.Request.AcceptTypes
                     .Any(t => t.Equals(OutputConstants.ApplicationJSON, StringComparison.OrdinalIgnoreCase));
         }
 

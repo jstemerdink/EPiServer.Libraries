@@ -53,8 +53,8 @@ namespace EPiServer.Libraries.Output.Channels.Display
                 return false;
             }
 
-            return ChannelSettings.Instance.EnablePDF &&
-                context.Request.ContentType.Split(';')
+            return ChannelSettings.Instance.EnablePDF && context.Request.AcceptTypes != null &&
+                context.Request.AcceptTypes
                     .Any(t => t.Equals(OutputConstants.ApplicationPDF, StringComparison.OrdinalIgnoreCase));
         }
 
