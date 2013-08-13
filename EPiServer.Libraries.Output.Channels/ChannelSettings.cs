@@ -1,10 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OutputSettings.cs" company="Jeroen Stemerdink">
+// <copyright file="ChannelSettings.cs" company="Jeroen Stemerdink">
 //   Copyright© 2013 Jeroen Stemerdink. All Rights Reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace EPiServer.Libraries.Output
+namespace EPiServer.Libraries.Output.Channels
 {
     using System;
     using System.Web.UI.WebControls;
@@ -16,29 +16,29 @@ namespace EPiServer.Libraries.Output
     /// <summary>
     ///     Setttings for the translations
     /// </summary>
-    [GuiPlugIn(Area = PlugInArea.None, DisplayName = "Output Settings")]
-    public class OutputSettings
+    [GuiPlugIn(Area = PlugInArea.None, DisplayName = "Output Channel Settings")]
+    public class ChannelSettings
     {
         #region Static Fields
 
         /// <summary>
-        ///     Initializes the <see cref="LogManager">LogManager</see> for the <see cref="OutputSettings" /> class.
+        ///     Initializes the <see cref="LogManager">LogManager</see> for the <see cref="ChannelSettings" /> class.
         /// </summary>
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(OutputSettings));
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(ChannelSettings));
 
         /// <summary>
         ///     The instance.
         /// </summary>
-        private static OutputSettings instance;
+        private static ChannelSettings instance;
 
         #endregion
 
         #region Constructors and Destructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="OutputSettings" /> class.
+        ///     Initializes a new instance of the <see cref="ChannelSettings" /> class.
         /// </summary>
-        public OutputSettings()
+        public ChannelSettings()
         {
             PlugInSettings.SettingsChanged += PlugInSettingsChanged;
         }
@@ -50,13 +50,13 @@ namespace EPiServer.Libraries.Output
         /// <summary>
         ///     Gets the instance.
         /// </summary>
-        public static OutputSettings Instance
+        public static ChannelSettings Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new OutputSettings();
+                    instance = new ChannelSettings();
                 }
 
                 try
@@ -65,7 +65,7 @@ namespace EPiServer.Libraries.Output
                 }
                 catch (Exception exception)
                 {
-                    Logger.Error("[OutputFormats] Error loading output settings.", exception);
+                    Logger.Error("[OutputFormats] Error loading output channel settings.", exception);
                 }
 
                 return instance;
@@ -99,13 +99,6 @@ namespace EPiServer.Libraries.Output
         [PlugInProperty(Description = "Enable XML output.", AdminControl = typeof(CheckBox), 
             AdminControlValue = "Checked")]
         public virtual bool EnableXML { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the location of the print stylesheet .
-        /// </summary>
-        [PlugInProperty(Description = "Print stylesheet location.", AdminControl = typeof(TextBox), 
-            AdminControlValue = "Text")]
-        public virtual string StyleSheet { get; set; }
 
         #endregion
 

@@ -533,7 +533,7 @@ namespace EPiServer.Libraries.UnitTests
         private HttpContextBase CreateFakeHttpContext()
         {
             HttpRequestBase httpRequestBase = A.Fake<HttpRequestBase>();
-            A.CallTo(() => httpRequestBase.HttpMethod).Returns("POST");
+            A.CallTo(() => httpRequestBase.HttpMethod).Returns("GET");
             A.CallTo(() => httpRequestBase.Headers).Returns(this.requestHeaderCollection);
             A.CallTo(() => httpRequestBase.Form).Returns(this.formCollection);
             A.CallTo(() => httpRequestBase.QueryString).Returns(this.queryStringCollection);
