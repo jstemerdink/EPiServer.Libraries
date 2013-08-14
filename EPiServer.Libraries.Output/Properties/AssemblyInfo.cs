@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("4d6ee661-63d9-42c8-9d88-260072041649")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
