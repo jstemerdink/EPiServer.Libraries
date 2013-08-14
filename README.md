@@ -6,6 +6,8 @@ By Jeroen Stemerdink
 
 [A custom localization provider](EPiServer.Libraries.Localization/README.md)
 
-[Enable different outputs for PageData](EPiServer.Libraries.Output/README.md)
+[Enable different outputs for PageData, through a url segment](EPiServer.Libraries.Output/README.md)
 
 [Enable different outputs for PageData, through DisplayChannels](EPiServer.Libraries.Output.Channels/README.md)
+
+[Enable different outputs for PageData within MVC, through DisplayChannels](EPiServer.Libraries.Mvc.Output.Channels/README.md)
