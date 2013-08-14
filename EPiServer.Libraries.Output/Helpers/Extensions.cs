@@ -223,12 +223,9 @@ namespace EPiServer.Libraries.Output.Helpers
                 return propertyValues;
             }
 
-            foreach (IContent content in contentArea.Contents)
+            foreach (IContent content in contentArea.Contents.Where(content => !content.CannotBeUsedInOutput()))
             {
-                if (!content.CannotBeUsedInOutput())
-                {
-                    propertyValues.AddRange(content.GetPropertyValues());
-                }
+                propertyValues.AddRange(content.GetPropertyValues());
             }
 
             return propertyValues;
