@@ -32,7 +32,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
         /// <summary>
         ///     The of.
         /// </summary>
-        private Because of = () => OutputHelper.HandleTxt(NoOutputItem, CmsContext.HttpContextBase);
+        private Because of = () => OutputHelper.HandleTxt(OutputItem, CmsContext.HttpContextBase);
 
         /// <summary>
         ///     The should_contain_txt_header
@@ -66,7 +66,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
         /// <summary>
         ///     The of.
         /// </summary>
-        private Because of = () => OutputHelper.HandleJson(NoOutputItem, CmsContext.HttpContextBase);
+        private Because of = () => OutputHelper.HandleJson(OutputItem, CmsContext.HttpContextBase);
 
         /// <summary>
         /// The should_be_valid_json.
@@ -157,7 +157,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
         /// <summary>
         ///     The of.
         /// </summary>
-        private Because of = () => OutputHelper.HandleXml(NoOutputItem, CmsContext.HttpContextBase);
+        private Because of = () => OutputHelper.HandleXml(OutputItem, CmsContext.HttpContextBase);
 
         /// <summary>
         ///     Check if the XML is valid and if the first data is the content to display.

@@ -26,11 +26,11 @@ namespace EPiServer.Libraries.Output.Helpers
         /// <summary>
         /// Determines whether the specified PageData cannot be used in outputs.
         /// </summary>
-        /// <param name="self">The self.</param>
+        /// <param name="self">The content.</param>
         /// <returns>
         ///   <c>true</c> if the specified PageData has cannot be used; otherwise, <c>false</c>.
         /// </returns>
-        public static bool CannotBeUsedInOutput(this PageData self)
+        public static bool CannotBeUsedInOutput(this IContent self)
         {
             DisableOutputFormatAttribute attr = (DisableOutputFormatAttribute)Attribute.GetCustomAttribute(self.GetType(), typeof(DisableOutputFormatAttribute));
             return attr != null;
@@ -225,7 +225,10 @@ namespace EPiServer.Libraries.Output.Helpers
 
             foreach (IContent content in contentArea.Contents)
             {
-                propertyValues.AddRange(content.GetPropertyValues());
+                if (!content.CannotBeUsedInOutput())
+                {
+                    propertyValues.AddRange(content.GetPropertyValues());
+                }
             }
 
             return propertyValues;
