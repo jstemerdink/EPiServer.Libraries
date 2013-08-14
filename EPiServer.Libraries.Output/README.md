@@ -25,7 +25,9 @@ For each property that you want to be rendered in e.g. the xml, add the ```[UseI
 
 If you add it to a ```ContentArea``` it will take the properties from the content added to the area that have the ```[UseInOutput]``` attribute.
 
-Make sure you set the order value on the ```[Display]``` attribute, the properties get rendered in that order.
+Make sure you set the order value on the ```[UseInOutput]``` attribute, the properties get rendered in that order.
+
+You can exclude a page type from being used by adding the ```[DisableOutputFormat]``` attribute to it.
 
 You can add two properties ```PdfHeader``` and ```PdfFooter``` to your startpage if you want a header and footer to be rendered in the pdf.
 
