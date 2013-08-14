@@ -79,6 +79,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
                 JProperty t = a.First as JProperty;
                 t.ShouldNotBeNull();
                 t.Value.ToString().ShouldEqual(ContentToDisplay);
+                t.Name.ShouldEqual("outputtest_texttouseinoutput");
             };
 
         /// <summary>
@@ -167,6 +168,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
                 XmlDocument xmlDocument = new XmlDocument();
                 xmlDocument.LoadXml(CmsContext.HttpContextBase.Response.Output.ToString());
                 xmlDocument.FirstChild.FirstChild.InnerText.ShouldEqual(ContentToDisplay);
+                xmlDocument.FirstChild.FirstChild.Name.ShouldEqual("outputtest_texttouseinoutput");
             };
 
         /// <summary>

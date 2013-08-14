@@ -8,6 +8,7 @@ namespace EPiServer.Libraries.Output.Helpers
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
 
@@ -91,10 +92,19 @@ namespace EPiServer.Libraries.Output.Helpers
                     {
                         string objectValue = value.ToString();
 
-                        if (!string.IsNullOrWhiteSpace(objectValue))
+                        if (string.IsNullOrWhiteSpace(objectValue))
                         {
-                            propertyValues.Add(new KeyValuePair<string, string>(propertyInfo.Name, objectValue));
+                            continue;
                         }
+
+                        string key =
+                            string.Format(
+                                CultureInfo.InvariantCulture,
+                                "{0}_{1}",
+                                page.Name.Trim(),
+                                propertyInfo.Name.Trim()).ToLowerInvariant().Replace(" ", "_");
+
+                        propertyValues.Add(new KeyValuePair<string, string>(key, objectValue));
                     }
 
                     continue;
