@@ -28,7 +28,7 @@ namespace EPiServer.Libraries.Output.Channels
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            OutputHelper.UseActiveChannel(this.CurrentPage);
+            ChannelHelper.UseActiveChannel(this.CurrentPage);
         }
 
         #endregion

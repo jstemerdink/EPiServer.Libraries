@@ -11,11 +11,10 @@ namespace EPiServer.Libraries.Output
 {
     using System;
     using System.Globalization;
-    using System.Web;
     using System.Web.Routing;
 
     using EPiServer.Core;
-    using EPiServer.Libraries.Output.Formats;
+    using EPiServer.Libraries.Output.Helpers;
     using EPiServer.Web.Routing;
     using EPiServer.Web.Routing.Segments;
 
@@ -88,26 +87,22 @@ namespace EPiServer.Libraries.Output
 
             if (output.Equals(OutputConstants.PDF, StringComparison.OrdinalIgnoreCase) && OutputSettings.Instance.EnablePDF)
             {
-                PdfOutputFormat pdfOutputFormat = new PdfOutputFormat();
-                pdfOutputFormat.HandleFormat(content, new HttpContextWrapper(HttpContext.Current)); 
+                OutputHelper.HandlePdf(content);
             }
 
             if (output.Equals(OutputConstants.Text, StringComparison.OrdinalIgnoreCase) && OutputSettings.Instance.EnableTXT)
             {
-                TxtOutputFormat txtOutputFormat = new TxtOutputFormat();
-                txtOutputFormat.HandleFormat(content, new HttpContextWrapper(HttpContext.Current));
+                OutputHelper.HandleTxt(content);
             }
 
             if (output.Equals(OutputConstants.XML, StringComparison.OrdinalIgnoreCase) && OutputSettings.Instance.EnableXML)
             {
-                XmlOutputFormat xmlOutputFormat = new XmlOutputFormat();
-                xmlOutputFormat.HandleFormat(content, new HttpContextWrapper(HttpContext.Current));
+                OutputHelper.HandleXml(content);
             }
 
             if (output.Equals(OutputConstants.JSON, StringComparison.OrdinalIgnoreCase) && OutputSettings.Instance.EnableJSON)
             {
-                JsonOutputFormat jsonOutputFormat = new JsonOutputFormat();
-                jsonOutputFormat.HandleFormat(content, new HttpContextWrapper(HttpContext.Current));
+                OutputHelper.HandleJson(content);
             }
 
             return content;

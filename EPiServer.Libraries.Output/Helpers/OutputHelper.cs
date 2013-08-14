@@ -15,6 +15,7 @@ namespace EPiServer.Libraries.Output.Helpers
     using System.Web;
 
     using EPiServer.Core;
+    using EPiServer.Libraries.Output.Formats;
 
     using ExCSS;
     using ExCSS.Model;
@@ -82,7 +83,7 @@ namespace EPiServer.Libraries.Output.Helpers
             {
                 Dictionary<string, string> attributes =
                     ruleSet.Declarations.ToDictionary(
-                        declaration => declaration.Name, 
+                        declaration => declaration.Name,
                         declaration => declaration.Expression.ToString());
 
                 foreach (Selector selector in ruleSet.Selectors)
@@ -146,6 +147,47 @@ namespace EPiServer.Libraries.Output.Helpers
 
             return true;
         }
+
+        /// <summary>
+        /// Handles the json format.
+        /// </summary>
+        /// <param name="currentPage">The current page.</param>
+        public static void HandleJson(PageData currentPage)
+        {
+            JsonOutputFormat jsonOutputFormat = new JsonOutputFormat();
+            jsonOutputFormat.HandleFormat(currentPage, new HttpContextWrapper(HttpContext.Current));
+        }
+
+        /// <summary>
+        /// Handles the txt format.
+        /// </summary>
+        /// <param name="currentPage">The current page.</param>
+        public static void HandleTxt(PageData currentPage)
+        {
+            TxtOutputFormat txtOutputFormat = new TxtOutputFormat();
+            txtOutputFormat.HandleFormat(currentPage, new HttpContextWrapper(HttpContext.Current));
+        }
+
+        /// <summary>
+        /// Handles the xml format.
+        /// </summary>
+        /// <param name="currentPage">The current page.</param>
+        public static void HandleXml(PageData currentPage)
+        {
+            XmlOutputFormat xmlOutputFormat = new XmlOutputFormat();
+            xmlOutputFormat.HandleFormat(currentPage, new HttpContextWrapper(HttpContext.Current));
+        }
+
+        /// <summary>
+        /// Handles the pdf format.
+        /// </summary>
+        /// <param name="currentPage">The current page.</param>
+        public static void HandlePdf(PageData currentPage)
+        {
+            PdfOutputFormat pdfOutputFormat = new PdfOutputFormat();
+            pdfOutputFormat.HandleFormat(currentPage, new HttpContextWrapper(HttpContext.Current));
+        }
+
         #endregion
     }
 }

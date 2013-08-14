@@ -6,16 +6,15 @@
 
 namespace EPiServer.Libraries.Mvc.Output.Channels
 {
-    using System;
-    using System.Linq;
-    using System.Web;
     using System.Web.WebPages;
 
     using EPiServer.Framework;
     using EPiServer.Framework.Initialization;
     using EPiServer.Libraries.Output;
-    using EPiServer.ServiceLocation;
+    using EPiServer.Libraries.Output.Channels;
     using EPiServer.Web;
+
+    using log4net;
 
     using InitializationModule = EPiServer.Web.InitializationModule;
 
@@ -25,13 +24,17 @@ namespace EPiServer.Libraries.Mvc.Output.Channels
     [ModuleDependency(typeof(InitializationModule))]
     public class OutputFormatsInitialization : IInitializableModule
     {
-        #region Static Fields
+        #region Fields
 
         /// <summary>
-        ///     The display channel service.
+        ///     Initializes the <see cref="LogManager">LogManager</see> for the <see cref="OutputFormatsInitialization" /> class.
         /// </summary>
-        private static readonly DisplayChannelService CurrentDisplayChannelService =
-            ServiceLocator.Current.GetInstance<DisplayChannelService>();
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(OutputFormatsInitialization));
+
+        /// <summary>
+        ///     The initialized.
+        /// </summary>
+        private bool initialized;
 
         #endregion
 
@@ -45,30 +48,36 @@ namespace EPiServer.Libraries.Mvc.Output.Channels
         /// </param>
         public void Initialize(InitializationEngine context)
         {
-            if (context == null || context.HostType != HostType.WebApplication)
+            if (this.initialized || context == null || context.HostType != HostType.WebApplication)
             {
                 return;
             }
 
+            Logger.Info("[OutputFormats] Initializing output channels.");
+
             context.Locate.DisplayChannelService()
                 .RegisterDisplayMode(
-                    new DefaultDisplayMode(OutputConstants.JSON) { ContextCondition = IsJsonDisplayModeActive }, 
+                    new DefaultDisplayMode(OutputConstants.JSON) { ContextCondition = ChannelHelper.IsJsonDisplayModeActive }, 
                     0);
 
             context.Locate.DisplayChannelService()
                 .RegisterDisplayMode(
-                    new DefaultDisplayMode(OutputConstants.XML) { ContextCondition = IsXmlDisplayModeActive }, 
+                    new DefaultDisplayMode(OutputConstants.XML) { ContextCondition = ChannelHelper.IsXmlDisplayModeActive }, 
                     0);
 
             context.Locate.DisplayChannelService()
                 .RegisterDisplayMode(
-                    new DefaultDisplayMode(OutputConstants.Text) { ContextCondition = IsTxtDisplayModeActive }, 
+                    new DefaultDisplayMode(OutputConstants.Text) { ContextCondition = ChannelHelper.IsTxtDisplayModeActive }, 
                     0);
 
             context.Locate.DisplayChannelService()
                 .RegisterDisplayMode(
-                    new DefaultDisplayMode(OutputConstants.PDF) { ContextCondition = IsPdfDisplayModeActive }, 
+                    new DefaultDisplayMode(OutputConstants.PDF) { ContextCondition = ChannelHelper.IsPdfDisplayModeActive }, 
                     0);
+
+            this.initialized = true;
+
+            Logger.Info("[OutputFormats] Output channels initialized.");
         }
 
         /// <summary>
@@ -106,74 +115,7 @@ namespace EPiServer.Libraries.Mvc.Output.Channels
         /// </remarks>
         public void Uninitialize(InitializationEngine context)
         {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Determines whether [is json display mode active] [the specified HTTP context].
-        /// </summary>
-        /// <param name="httpContext">
-        /// The HTTP context.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if [is json display mode active] [the specified HTTP context]; otherwise, <c>false</c>.
-        /// </returns>
-        private static bool IsJsonDisplayModeActive(HttpContextBase httpContext)
-        {
-            return
-                CurrentDisplayChannelService.GetActiveChannels(httpContext)
-                    .Any(c => string.Equals(c.ChannelName, OutputConstants.JSON, StringComparison.OrdinalIgnoreCase));
-        }
-
-        /// <summary>
-        /// Determines whether [is PDF display mode active] [the specified HTTP context].
-        /// </summary>
-        /// <param name="httpContext">
-        /// The HTTP context.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if [is PDF display mode active] [the specified HTTP context]; otherwise, <c>false</c>.
-        /// </returns>
-        private static bool IsPdfDisplayModeActive(HttpContextBase httpContext)
-        {
-            return
-                CurrentDisplayChannelService.GetActiveChannels(httpContext)
-                    .Any(c => string.Equals(c.ChannelName, OutputConstants.PDF, StringComparison.OrdinalIgnoreCase));
-        }
-
-        /// <summary>
-        /// Determines whether [is TXT display mode active] [the specified HTTP context].
-        /// </summary>
-        /// <param name="httpContext">
-        /// The HTTP context.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if [is TXT display mode active] [the specified HTTP context]; otherwise, <c>false</c>.
-        /// </returns>
-        private static bool IsTxtDisplayModeActive(HttpContextBase httpContext)
-        {
-            return
-                CurrentDisplayChannelService.GetActiveChannels(httpContext)
-                    .Any(c => string.Equals(c.ChannelName, OutputConstants.Text, StringComparison.OrdinalIgnoreCase));
-        }
-
-        /// <summary>
-        /// Determines whether [is XML display mode active] [the specified HTTP context].
-        /// </summary>
-        /// <param name="httpContext">
-        /// The HTTP context.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if [is XML display mode active] [the specified HTTP context]; otherwise, <c>false</c>.
-        /// </returns>
-        private static bool IsXmlDisplayModeActive(HttpContextBase httpContext)
-        {
-            return
-                CurrentDisplayChannelService.GetActiveChannels(httpContext)
-                    .Any(c => string.Equals(c.ChannelName, OutputConstants.XML, StringComparison.OrdinalIgnoreCase));
+            this.initialized = false;
         }
 
         #endregion

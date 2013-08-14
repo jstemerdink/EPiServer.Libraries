@@ -6,13 +6,12 @@
 
 namespace EPiServer.Libraries.Mvc.Output.Channels.Controllers
 {
-    using System.Web;
     using System.Web.Mvc;
 
     using EPiServer.Core;
     using EPiServer.Framework.DataAnnotations;
     using EPiServer.Libraries.Output;
-    using EPiServer.Libraries.Output.Formats;
+    using EPiServer.Libraries.Output.Helpers;
     using EPiServer.Web.Mvc;
 
     /// <summary>
@@ -34,8 +33,7 @@ namespace EPiServer.Libraries.Mvc.Output.Channels.Controllers
         /// </returns>
         public ActionResult Index(PageData currentPage)
         {
-            TxtOutputFormat txtOutputFormat = new TxtOutputFormat();
-            txtOutputFormat.HandleFormat(currentPage, new HttpContextWrapper(System.Web.HttpContext.Current));
+            OutputHelper.HandleTxt(currentPage);
 
             return new EmptyResult();
         }
