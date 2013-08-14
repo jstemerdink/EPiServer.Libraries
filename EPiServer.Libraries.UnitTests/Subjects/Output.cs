@@ -11,6 +11,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
 
     using EPiServer.Libraries.Output;
     using EPiServer.Libraries.Output.Formats;
+    using EPiServer.Libraries.Output.Helpers;
     using EPiServer.Libraries.UnitTests.Specs;
 
     using iTextSharp.text.pdf;
@@ -31,11 +32,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
         /// <summary>
         ///     The of.
         /// </summary>
-        private Because of = () =>
-            {
-                TxtOutputFormat txtOutputFormat = new TxtOutputFormat();
-                txtOutputFormat.HandleFormat(OutputItem, CmsContext.HttpContextBase);
-            };
+        private Because of = () => OutputHelper.HandleTxt(NoOutputItem, CmsContext.HttpContextBase);
 
         /// <summary>
         ///     The should_contain_txt_header
@@ -69,11 +66,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
         /// <summary>
         ///     The of.
         /// </summary>
-        private Because of = () =>
-            {
-                JsonOutputFormat txtOutputFormat = new JsonOutputFormat();
-                txtOutputFormat.HandleFormat(OutputItem, CmsContext.HttpContextBase);
-            };
+        private Because of = () => OutputHelper.HandleJson(NoOutputItem, CmsContext.HttpContextBase);
 
         /// <summary>
         /// The should_be_valid_json.
@@ -110,6 +103,50 @@ namespace EPiServer.Libraries.UnitTests.Subjects
     }
 
     /// <summary>
+    ///     Get json output.
+    /// </summary>
+    [Subject("Output")]
+    public class Get_no_json_output : OutputSpecs
+    {
+        #region Fields
+
+        /// <summary>
+        ///     The of.
+        /// </summary>
+        private Because of = () => OutputHelper.HandleJson(NoOutputItem, CmsContext.HttpContextBase);
+
+        /// <summary>
+        /// The should_be_no_valid_json.
+        /// </summary>
+        private It should_not_be_valid_json = () =>
+        {
+            object jsonResult = JsonConvert.DeserializeObject(CmsContext.HttpContextBase.Response.Output.ToString());
+            JContainer a = jsonResult as JContainer;
+            a.ShouldBeNull();
+        };
+
+        /// <summary>
+        ///     The should_not_contain_txt_header
+        /// </summary>
+        private It should_not_contain_json_header =
+            () => CmsContext.HttpContextBase.Response.Headers["Content-Type"].ShouldBeNull();
+
+        /// <summary>
+        ///     The should_contain_txt_set_for_display
+        /// </summary>
+        private It should_contain_txt_set_for_display =
+            () => CmsContext.HttpContextBase.Response.Output.ToString().ShouldNotContain(ContentToDisplay);
+
+        /// <summary>
+        ///     The should_not_contain_txt_not_set_for_display
+        /// </summary>
+        private It should_not_contain_txt_not_set_for_display =
+            () => CmsContext.HttpContextBase.Response.Output.ToString().ShouldNotContain(ContentNotToDisplay);
+
+        #endregion
+    }
+
+    /// <summary>
     ///     Get xml output.
     /// </summary>
     [Subject("Output")]
@@ -120,11 +157,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
         /// <summary>
         ///     The of.
         /// </summary>
-        private Because of = () =>
-            {
-                XmlOutputFormat xmlOutputFormat = new XmlOutputFormat();
-                xmlOutputFormat.HandleFormat(OutputItem, CmsContext.HttpContextBase);
-            };
+        private Because of = () => OutputHelper.HandleXml(NoOutputItem, CmsContext.HttpContextBase);
 
         /// <summary>
         ///     Check if the XML is valid and if the first data is the content to display.

@@ -152,40 +152,64 @@ namespace EPiServer.Libraries.Output.Helpers
         /// Handles the json format.
         /// </summary>
         /// <param name="currentPage">The current page.</param>
-        public static void HandleJson(PageData currentPage)
+        /// <param name="httpContextBase">The HttpContext</param>
+        public static void HandleJson(PageData currentPage, HttpContextBase httpContextBase = null)
         {
+            if (currentPage.CannotBeUsedInOutput())
+            {
+                return;
+            }
+
             JsonOutputFormat jsonOutputFormat = new JsonOutputFormat();
-            jsonOutputFormat.HandleFormat(currentPage, new HttpContextWrapper(HttpContext.Current));
+            jsonOutputFormat.HandleFormat(currentPage, httpContextBase ?? new HttpContextWrapper(HttpContext.Current));
         }
 
         /// <summary>
         /// Handles the txt format.
         /// </summary>
         /// <param name="currentPage">The current page.</param>
-        public static void HandleTxt(PageData currentPage)
+        /// <param name="httpContextBase">The HttpContext</param>
+        public static void HandleTxt(PageData currentPage, HttpContextBase httpContextBase = null)
         {
+            if (currentPage.CannotBeUsedInOutput())
+            {
+                return;
+            }
+
             TxtOutputFormat txtOutputFormat = new TxtOutputFormat();
-            txtOutputFormat.HandleFormat(currentPage, new HttpContextWrapper(HttpContext.Current));
+            txtOutputFormat.HandleFormat(currentPage, httpContextBase ?? new HttpContextWrapper(HttpContext.Current));
         }
 
         /// <summary>
         /// Handles the xml format.
         /// </summary>
         /// <param name="currentPage">The current page.</param>
-        public static void HandleXml(PageData currentPage)
+        /// <param name="httpContextBase">The HttpContext</param>
+        public static void HandleXml(PageData currentPage, HttpContextBase httpContextBase = null)
         {
+            if (currentPage.CannotBeUsedInOutput())
+            {
+                return;
+            }
+
             XmlOutputFormat xmlOutputFormat = new XmlOutputFormat();
-            xmlOutputFormat.HandleFormat(currentPage, new HttpContextWrapper(HttpContext.Current));
+            xmlOutputFormat.HandleFormat(currentPage, httpContextBase ?? new HttpContextWrapper(HttpContext.Current));
         }
 
         /// <summary>
         /// Handles the pdf format.
         /// </summary>
         /// <param name="currentPage">The current page.</param>
-        public static void HandlePdf(PageData currentPage)
+        /// <param name="httpContextBase">The HttpContext</param>
+        public static void HandlePdf(PageData currentPage, HttpContextBase httpContextBase = null)
         {
+            if (currentPage.CannotBeUsedInOutput())
+            {
+                return;
+            }
+
             PdfOutputFormat pdfOutputFormat = new PdfOutputFormat();
-            pdfOutputFormat.HandleFormat(currentPage, new HttpContextWrapper(HttpContext.Current));
+            pdfOutputFormat.HandleFormat(currentPage, httpContextBase ?? new HttpContextWrapper(HttpContext.Current));
         }
 
         #endregion

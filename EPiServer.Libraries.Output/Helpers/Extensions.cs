@@ -24,6 +24,19 @@ namespace EPiServer.Libraries.Output.Helpers
         #region Public Methods and Operators
 
         /// <summary>
+        /// Determines whether the specified PageData cannot be used in outputs.
+        /// </summary>
+        /// <param name="self">The self.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified PageData has cannot be used; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool CannotBeUsedInOutput(this PageData self)
+        {
+            DisableOutputFormatAttribute attr = (DisableOutputFormatAttribute)Attribute.GetCustomAttribute(self.GetType(), typeof(DisableOutputFormatAttribute));
+            return attr != null;
+        }
+
+        /// <summary>
         /// A MemberInfo extension method that gets a page type property attribute.
         /// </summary>
         /// <param name="self">

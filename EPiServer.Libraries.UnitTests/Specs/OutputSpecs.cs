@@ -66,6 +66,12 @@ namespace EPiServer.Libraries.UnitTests.Specs
                     ContentToDisplay, 
                     ContentNotToDisplay, 
                     ContentReference.StartPage);
+
+                NoOutputItem = CreateNoOutputItem(
+                   "NoOutputTest",
+                   ContentToDisplay,
+                   ContentNotToDisplay,
+                   ContentReference.StartPage);
             };
 
         #endregion
@@ -77,6 +83,12 @@ namespace EPiServer.Libraries.UnitTests.Specs
         /// </summary>
         [NotNull]
         public static CmsContext CmsContext { get; set; }
+
+        /// <summary>
+        /// Gets or sets the "no" output item.
+        /// </summary>
+        [NotNull]
+        public static NoOutputItem NoOutputItem { get; set; }
 
         /// <summary>
         ///     Gets or sets the output item.
@@ -93,6 +105,33 @@ namespace EPiServer.Libraries.UnitTests.Specs
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Creates the "no" output item.
+        /// </summary>
+        /// <param name="pageName">Name of the page.</param>
+        /// <param name="textToUse">The text to use.</param>
+        /// <param name="textNotToUse">The text not to use.</param>
+        /// <param name="parentLink">The parent link.</param>
+        /// <returns>
+        /// The <see cref="NoOutputItem" />
+        /// </returns>
+        [NotNull]
+        protected static NoOutputItem CreateNoOutputItem(
+            [NotNull] string pageName,
+            [NotNull] string textToUse,
+            [NotNull] string textNotToUse,
+            [NotNull] ContentReference parentLink)
+        {
+            // Create the base item
+            NoOutputItem outputItem = CmsContext.CreateContent<NoOutputItem>(pageName, parentLink);
+
+            // Set the additional properties for this type.
+            outputItem.TextToUseInOutput = textToUse;
+            outputItem.TextNotToUseInOutput = textNotToUse;
+
+            return outputItem;
+        }
 
         /// <summary>
         /// Creates the output item.
