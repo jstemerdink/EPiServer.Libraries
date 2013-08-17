@@ -50,9 +50,7 @@ namespace EPiServer.Libraries.Output.Channels.Display
                 return false;
             }
 
-            return ChannelSettings.Instance.EnableXML && context.Request.AcceptTypes != null &&
-                context.Request.AcceptTypes
-                    .Any(t => t.Equals(OutputConstants.TextXML, StringComparison.OrdinalIgnoreCase));
+            return ChannelSettings.Instance.EnableXML && context.IsXmlAccepted();
         }
 
         #endregion

@@ -37,6 +37,49 @@ namespace EPiServer.Libraries.Output.Formats
         #region Public Methods and Operators
 
         /// <summary>
+        /// Generate the json output for the page.
+        /// </summary>
+        /// <param name="page">
+        /// The page.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public static string GenerateJson(IContent page)
+        {
+            string json;
+
+            List<KeyValuePair<string, string>> propertyValues = page.GetPropertyValues();
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            using (StringWriter sw = new StringWriter(stringBuilder, CultureInfo.InvariantCulture))
+            {
+                JsonWriter jsonWriter = new JsonTextWriter(sw) { Formatting = Formatting.Indented };
+
+                jsonWriter.WriteStartObject();
+
+                jsonWriter.WritePropertyName(page.Name);
+
+                jsonWriter.WriteStartObject();
+
+                foreach (KeyValuePair<string, string> content in propertyValues)
+                {
+                    jsonWriter.WritePropertyName(content.Key);
+                    jsonWriter.WriteValue(TextIndexer.StripHtml(content.Value, content.Value.Length));
+                }
+
+                jsonWriter.WriteEndObject();
+
+                jsonWriter.WriteEndObject();
+
+                json = sw.ToString();
+            }
+
+            return json;
+        }
+
+        /// <summary>
         /// The handle format.
         /// </summary>
         /// <param name="page">
@@ -56,49 +99,9 @@ namespace EPiServer.Libraries.Output.Formats
 
             context.Response.AddHeader("Content-Type", OutputConstants.ApplicationJSON);
 
-            context.Response.Write(this.GenerateJson(page));
+            context.Response.Write(GenerateJson(page));
+
             context.Response.End();
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Generate the json output for the page.
-        /// </summary>
-        /// <param name="page">
-        /// The page.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        private string GenerateJson(IContent page)
-        {
-            string json;
-
-            List<KeyValuePair<string, string>> propertyValues = page.GetPropertyValues();
-
-            StringBuilder stringBuilder = new StringBuilder();
-
-            using (StringWriter sw = new StringWriter(stringBuilder, CultureInfo.InvariantCulture))
-            {
-                JsonWriter jsonWriter = new JsonTextWriter(sw) { Formatting = Formatting.Indented };
-
-                jsonWriter.WriteStartObject();
-
-                foreach (KeyValuePair<string, string> content in propertyValues)
-                {
-                    jsonWriter.WritePropertyName(content.Key);
-                    jsonWriter.WriteValue(TextIndexer.StripHtml(content.Value, content.Value.Length));
-                }
-
-                jsonWriter.WriteEndObject();
-
-                json = sw.ToString();
-            }
-
-            return json;
         }
 
         #endregion

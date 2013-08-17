@@ -39,6 +39,11 @@ namespace EPiServer.Libraries.UnitTests
         #region Fields
 
         /// <summary>
+        /// The accept headers
+        /// </summary>
+        private readonly string[] acceptHeaders = new string[1];
+
+        /// <summary>
         ///     The child pages.
         /// </summary>
         private readonly Dictionary<ContentReference, List<IContent>> childPages =
@@ -551,6 +556,7 @@ namespace EPiServer.Libraries.UnitTests
 
             HttpContextBase httpContextBase = A.Fake<HttpContextBase>();
             A.CallTo(() => httpContextBase.Request).Returns(httpRequestBase);
+            A.CallTo(() => httpContextBase.Request.AcceptTypes).Returns(this.acceptHeaders);
             A.CallTo(() => httpContextBase.Response).Returns(httpResponseBase);
 
             return httpContextBase;

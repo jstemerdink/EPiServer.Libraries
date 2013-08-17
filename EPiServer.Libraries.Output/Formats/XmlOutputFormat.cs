@@ -35,6 +35,41 @@ namespace EPiServer.Libraries.Output.Formats
         #region Public Methods and Operators
 
         /// <summary>
+        /// The generate xml.
+        /// </summary>
+        /// <param name="page">
+        /// The page.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public static string GenerateXml(IContent page)
+        {
+            if (page == null)
+            {
+                return string.Empty;
+            }
+
+            XDocument xDocument = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), new object[0]);
+
+            XElement xElement = new XElement("content");
+            xElement.SetAttributeValue("name", XmlConvert.EncodeName(page.Name));
+
+            List<KeyValuePair<string, string>> propertyValues = page.GetPropertyValues();
+
+            foreach (KeyValuePair<string, string> content in propertyValues)
+            {
+                XElement xElement3 = new XElement(XmlConvert.EncodeName(content.Key));
+                xElement3.SetValue(TextIndexer.StripHtml(content.Value, content.Value.Length));
+                xElement.Add(xElement3);
+            }
+
+            xDocument.Add(xElement);
+
+            return xDocument.ToString();
+        }
+
+        /// <summary>
         /// The handle format.
         /// </summary>
         /// <param name="page">
@@ -54,24 +89,9 @@ namespace EPiServer.Libraries.Output.Formats
 
             context.Response.AddHeader("Content-Type", OutputConstants.TextXML);
             context.Response.ContentEncoding = new UTF8Encoding();
-            
-            XDocument xDocument = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), new object[0]);
-            
-            XElement xElement = new XElement("content");
-            xElement.SetAttributeValue("name", XmlConvert.EncodeName(page.PageName));
 
-            List<KeyValuePair<string, string>> propertyValues = page.GetPropertyValues();
+            context.Response.Write(GenerateXml(page));
 
-            foreach (KeyValuePair<string, string> content in propertyValues)
-            {
-                XElement xElement3 = new XElement(XmlConvert.EncodeName(content.Key));
-                xElement3.SetValue(TextIndexer.StripHtml(content.Value, content.Value.Length));
-                xElement.Add(xElement3);
-            }
-
-            xDocument.Add(xElement);
-
-            context.Response.Write(xDocument.ToString());
             context.Response.End();
         }
 

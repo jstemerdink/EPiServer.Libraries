@@ -47,7 +47,7 @@ namespace EPiServer.Libraries.Output.Formats
         /// <returns>
         /// The pdf in bytes.
         /// </returns>
-        public byte[] GeneratePdf(PageData page)
+        public static byte[] GeneratePdf(PageData page)
         {
             List<KeyValuePair<string, string>> propertyValues = page.GetPropertyValues();
 
@@ -179,7 +179,7 @@ namespace EPiServer.Libraries.Output.Formats
 
             context.Response.AddHeader("Content-Type", OutputConstants.ApplicationPDF);
             context.Response.AddHeader("Content-Disposition", contentDisposition);
-            context.Response.BinaryWrite(this.GeneratePdf(page));
+            context.Response.BinaryWrite(GeneratePdf(page));
             context.Response.Flush();
             context.Response.End();
         }

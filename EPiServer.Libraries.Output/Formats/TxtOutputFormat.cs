@@ -6,8 +6,8 @@
 
 namespace EPiServer.Libraries.Output.Formats
 {
-    using System;
     using System.Collections.Generic;
+    using System.Text;
     using System.Web;
 
     using EPiServer.Core;
@@ -33,6 +33,36 @@ namespace EPiServer.Libraries.Output.Formats
         #region Public Methods and Operators
 
         /// <summary>
+        /// Generates the TXT.
+        /// </summary>
+        /// <param name="page">The page.</param>
+        /// <returns>
+        /// The <see cref="string" />.
+        /// </returns>
+        public static string GenerateTxt(IContent page)
+        {
+            if (page == null)
+            {
+                return string.Empty;
+            }
+
+            StringBuilder contentString = new StringBuilder();
+
+            contentString.AppendLine(page.Name);
+            contentString.AppendLine();
+
+            List<KeyValuePair<string, string>> propertyValues = page.GetPropertyValues();
+
+            foreach (KeyValuePair<string, string> content in propertyValues)
+            {
+                contentString.AppendLine(TextIndexer.StripHtml(content.Value, content.Value.Length));
+                contentString.AppendLine();
+            }
+
+            return contentString.ToString();
+        }
+
+        /// <summary>
         /// The handle format.
         /// </summary>
         /// <param name="page">
@@ -50,17 +80,8 @@ namespace EPiServer.Libraries.Output.Formats
 
             context.Response.Clear();
             context.Response.AddHeader("Content-Type", OutputConstants.TextPlain);
-            context.Response.Write(page.Name + Environment.NewLine);
-            context.Response.Write(Environment.NewLine);
-
-            List<KeyValuePair<string, string>> propertyValues = page.GetPropertyValues();
-
-            foreach (KeyValuePair<string, string> content in propertyValues)
-            {
-                context.Response.Write(TextIndexer.StripHtml(content.Value, content.Value.Length));
-                context.Response.Write(Environment.NewLine);
-                context.Response.Write(Environment.NewLine);
-            }
+            
+            context.Response.Write(GenerateTxt(page));
 
             context.Response.End();
         }

@@ -6,8 +6,6 @@
 
 namespace EPiServer.Libraries.Output.Channels.Display
 {
-    using System;
-    using System.Linq;
     using System.Web;
 
     using EPiServer.Web;
@@ -50,9 +48,7 @@ namespace EPiServer.Libraries.Output.Channels.Display
                 return false;
             }
 
-            return ChannelSettings.Instance.EnableTXT && context.Request.AcceptTypes != null &&
-                context.Request.AcceptTypes
-                    .Any(t => t.Equals(OutputConstants.TextPlain, StringComparison.OrdinalIgnoreCase));
+            return ChannelSettings.Instance.EnableTXT && context.IsTxtAccepted();
         }
 
         #endregion
