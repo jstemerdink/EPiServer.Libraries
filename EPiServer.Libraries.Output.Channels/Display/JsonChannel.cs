@@ -8,6 +8,7 @@ namespace EPiServer.Libraries.Output.Channels.Display
 {
     using System.Web;
 
+    using EPiServer.Libraries.Output.Helpers;
     using EPiServer.Web;
 
     /// <summary>

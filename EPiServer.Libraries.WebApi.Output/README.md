@@ -12,7 +12,7 @@ It takes the PageID and an optional language parameter.
 
 ## Get started
 
-This module depends on [Enable different outputs for PageData](../EPiServer.Libraries.Output/README.md) and depends on [Enable different outputs for PageData](../EPiServer.Libraries.Output.Channels/README.md).
+This module depends on [Enable different outputs for PageData](../EPiServer.Libraries.Output/README.md).
 
 
 ## Code specifics

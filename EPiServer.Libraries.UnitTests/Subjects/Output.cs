@@ -10,10 +10,10 @@ namespace EPiServer.Libraries.UnitTests.Subjects
     using System.Xml;
 
     using EPiServer.Libraries.Output;
-    using EPiServer.Libraries.Output.Channels;
     using EPiServer.Libraries.Output.Formats;
     using EPiServer.Libraries.Output.Helpers;
     using EPiServer.Libraries.UnitTests.Specs;
+    using EPiServer.Libraries.WebApi.Output;
     using EPiServer.Libraries.WebApi.Output.Controllers;
 
     using iTextSharp.text.pdf;
@@ -133,7 +133,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
         /// </summary>
         private Because of = () =>
         {
-            ChannelSettings.Instance.EnableJSON = true;
+            WebApiSettings.Instance.EnableJSON = true;
             CmsContext.HttpContextBase.Request.AcceptTypes.ShouldNotBeNull();
             CmsContext.HttpContextBase.Request.AcceptTypes.SetValue(OutputConstants.ApplicationJSON, 0);
             ContentController controller = new ContentController(
@@ -278,7 +278,7 @@ namespace EPiServer.Libraries.UnitTests.Subjects
         /// </summary>
         private Because of = () =>
         {
-            ChannelSettings.Instance.EnableXML = true;
+            WebApiSettings.Instance.EnableXML = true;
             CmsContext.HttpContextBase.Request.AcceptTypes.ShouldNotBeNull();
             CmsContext.HttpContextBase.Request.AcceptTypes.SetValue(OutputConstants.TextXML, 0);
             ContentController controller = new ContentController(

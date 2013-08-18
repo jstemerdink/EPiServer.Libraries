@@ -11,7 +11,7 @@ namespace EPiServer.Libraries.Mvc.Output.Channels
     using EPiServer.Framework;
     using EPiServer.Framework.Initialization;
     using EPiServer.Libraries.Output;
-    using EPiServer.Libraries.Output.Channels;
+    using EPiServer.Libraries.Output.Helpers;
     using EPiServer.Web;
 
     using log4net;
@@ -53,31 +53,31 @@ namespace EPiServer.Libraries.Mvc.Output.Channels
                 return;
             }
 
-            Logger.Info("[OutputFormats] Initializing output channels.");
+            Logger.Info("[OutputFormats] Initializing Output WebApi.");
 
             context.Locate.DisplayChannelService()
                 .RegisterDisplayMode(
-                    new DefaultDisplayMode(OutputConstants.JSON) { ContextCondition = ChannelHelper.IsJsonDisplayModeActive }, 
+                    new DefaultDisplayMode(OutputConstants.JSON) { ContextCondition = ContextHelper.IsJsonDisplayModeActive }, 
                     0);
 
             context.Locate.DisplayChannelService()
                 .RegisterDisplayMode(
-                    new DefaultDisplayMode(OutputConstants.XML) { ContextCondition = ChannelHelper.IsXmlDisplayModeActive }, 
+                    new DefaultDisplayMode(OutputConstants.XML) { ContextCondition = ContextHelper.IsXmlDisplayModeActive }, 
                     0);
 
             context.Locate.DisplayChannelService()
                 .RegisterDisplayMode(
-                    new DefaultDisplayMode(OutputConstants.Text) { ContextCondition = ChannelHelper.IsTxtDisplayModeActive }, 
+                    new DefaultDisplayMode(OutputConstants.Text) { ContextCondition = ContextHelper.IsTxtDisplayModeActive }, 
                     0);
 
             context.Locate.DisplayChannelService()
                 .RegisterDisplayMode(
-                    new DefaultDisplayMode(OutputConstants.PDF) { ContextCondition = ChannelHelper.IsPdfDisplayModeActive }, 
+                    new DefaultDisplayMode(OutputConstants.PDF) { ContextCondition = ContextHelper.IsPdfDisplayModeActive }, 
                     0);
 
             this.initialized = true;
 
-            Logger.Info("[OutputFormats] Output channels initialized.");
+            Logger.Info("[OutputFormats] Output WebApi initialized.");
         }
 
         /// <summary>

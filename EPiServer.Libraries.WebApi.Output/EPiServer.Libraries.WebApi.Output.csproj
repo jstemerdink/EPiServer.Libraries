@@ -88,12 +88,9 @@
     <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="WebApiInitialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApiSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EPiServer.Libraries.Output.Channels\EPiServer.Libraries.Output.Channels.csproj">
-      <Project>{44023c12-9883-41d9-8fc2-c42e6a6f3d12}</Project>
-      <Name>EPiServer.Libraries.Output.Channels</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EPiServer.Libraries.Output\EPiServer.Libraries.Output.csproj">
       <Project>{9a90cc8d-902a-4047-a2c8-0df4238b07e3}</Project>
       <Name>EPiServer.Libraries.Output</Name>

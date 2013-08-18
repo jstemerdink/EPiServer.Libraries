@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="DataAnnotations\DisableOutputFormatAttribute.cs" />
     <Compile Include="DataAnnotations\OutputFormatAttribute.cs" />
+    <Compile Include="Helpers\ContextHelper.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Formats\JsonOutputFormat.cs" />
     <Compile Include="Formats\PdfOutputFormat.cs" />

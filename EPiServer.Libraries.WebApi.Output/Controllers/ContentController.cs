@@ -11,8 +11,8 @@ namespace EPiServer.Libraries.WebApi.Output.Controllers
     using System.Web.Http;
 
     using EPiServer.Core;
-    using EPiServer.Libraries.Output.Channels;
     using EPiServer.Libraries.Output.Formats;
+    using EPiServer.Libraries.Output.Helpers;
     using EPiServer.ServiceLocation;
 
     using log4net;
@@ -151,7 +151,7 @@ namespace EPiServer.Libraries.WebApi.Output.Controllers
         {
             if (this.CurrentHttpContext.IsJsonAccepted())
             {
-                if (ChannelSettings.Instance.EnableJSON)
+                if (WebApiSettings.Instance.EnableJSON)
                 {
                     return JsonOutputFormat.GenerateJson(requestedPageData);
                 }
@@ -161,7 +161,7 @@ namespace EPiServer.Libraries.WebApi.Output.Controllers
 
             if (this.CurrentHttpContext.IsXmlAccepted())
             {
-                if (ChannelSettings.Instance.EnableXML)
+                if (WebApiSettings.Instance.EnableXML)
                 {
                     return XmlOutputFormat.GenerateXml(requestedPageData);
                 }
