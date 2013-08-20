@@ -11,7 +11,6 @@ namespace EPiServer.Libraries.ContentProviders.Helpers
     using System.Linq;
 
     using EPiServer.Core;
-    using EPiServer.Data.Dynamic;
     using EPiServer.Libraries.ContentProviders.Models;
     using EPiServer.Libraries.ContentProviders.Providers;
     using EPiServer.ServiceLocation;
@@ -52,10 +51,7 @@ namespace EPiServer.Libraries.ContentProviders.Helpers
         {
             string name = string.Format(CultureInfo.InvariantCulture, "{0}-ClonedContent-{1}-{2}", providerName, root, entryPoint);
 
-            DynamicDataStore store = DynamicDataStoreFactory.Instance.GetStore(typeof(ClonedContentProviderSettings))
-                                     ?? DynamicDataStoreFactory.Instance.CreateStore(typeof(ClonedContentProviderSettings));
-
-            IQueryable<ClonedContentProviderSettings> providerCollection = store.Items<ClonedContentProviderSettings>();
+            IQueryable<ClonedContentProviderSettings> providerCollection = SettingsRepository.Instance.GetAll().AsQueryable();
 
             if (providerCollection.Count(pc => pc.EntryPoint.Equals(entryPoint)) > 0)
             {
