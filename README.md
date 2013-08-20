@@ -13,3 +13,5 @@ By Jeroen Stemerdink
 [Enable different outputs for PageData within MVC, through DisplayChannels](EPiServer.Libraries.Mvc.Output.Channels/README.md)
 
 [Enable different outputs for PageData, through a WebApi](EPiServer.Libraries.WebApi.Output/README.md)
+
+[Attach ContentProviders programmaticly](EPiServer.Libraries.ContentProviders/README.md)
