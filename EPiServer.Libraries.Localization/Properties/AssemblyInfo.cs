@@ -12,14 +12,14 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jeroen Stemerdink")]
 [assembly: AssemblyProduct("EPiServer.Libraries.Localization")]
-[assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2013")]
+[assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2014")]
 [assembly: AssemblyTrademark("")]
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 
 [assembly: Guid("d6158e5e-1682-4753-9706-b26935a98ee8")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.2")]
+[assembly: AssemblyFileVersion("1.0.0.2")]
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
