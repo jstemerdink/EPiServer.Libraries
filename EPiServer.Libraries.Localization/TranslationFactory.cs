@@ -320,9 +320,7 @@ namespace EPiServer.Libraries.Localization
         /// </returns>
         private PageReference GetTranslationContainer()
         {
-            PageReference containerPageReference = ContentReference.StartPage;
-
-            this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
+            PageReference containerPageReference = this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
                     .GetPropertyValue("TranslationContainer", ContentReference.StartPage);
 
             if (containerPageReference == ContentReference.StartPage)
