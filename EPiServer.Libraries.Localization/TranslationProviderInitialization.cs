@@ -10,6 +10,8 @@ namespace EPiServer.Libraries.Localization
     using System.Collections.Specialized;
     using System.Linq;
 
+    using EPiServer.Events;
+    using EPiServer.Events.Clients;
     using EPiServer.Framework;
     using EPiServer.Framework.Initialization;
     using EPiServer.Framework.Localization;
@@ -111,6 +113,10 @@ namespace EPiServer.Libraries.Localization
             DataFactory.Instance.PublishedPage += this.InstanceChangedPage;
             DataFactory.Instance.MovedPage += this.InstanceChangedPage;
             DataFactory.Instance.DeletedPage += this.InstanceChangedPage;
+
+            // Attach events to update the translations when the cache gets updated through an event, eg. in LoadBalanced environments.
+            Event removeFromCacheEvent = Event.Get(CacheManager.RemoveFromCacheEventId);
+            removeFromCacheEvent.Raised += this.RemoveFromCacheEventRaised;
 
             initialized = true;
 
@@ -274,6 +280,20 @@ namespace EPiServer.Libraries.Localization
             }
 
             this.ReloadProvider();
+        }
+
+        /// <summary>
+        /// Removes from cache event raised.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventNotificationEventArgs"/> instance containing the event data.</param>
+        private void RemoveFromCacheEventRaised(object sender, EventNotificationEventArgs e)
+        {
+            // We don't want to process events raised on this machine so we will check the raiser id.
+            if (e.RaiserId != CacheManager.LocalCacheManagerRaiserId)
+            {
+                this.ReloadProvider();
+            }
         }
 
         /// <summary>
