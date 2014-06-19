@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(false)]
 
 [assembly: Guid("d6158e5e-1682-4753-9706-b26935a98ee8")]
-[assembly: AssemblyVersion("1.0.0.2")]
-[assembly: AssemblyFileVersion("1.0.0.2")]
+[assembly: AssemblyVersion("1.0.0.3")]
+[assembly: AssemblyFileVersion("1.0.0.3")]
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
