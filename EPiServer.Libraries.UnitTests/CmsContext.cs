@@ -70,7 +70,7 @@ namespace EPiServer.Libraries.UnitTests
         private readonly NameValueCollection requestHeaderCollection = new NameValueCollection();
 
         /// <summary>
-        ///     The reponse header collection
+        ///     The response header collection
         /// </summary>
         private readonly NameValueCollection responseHeaderCollection = new NameValueCollection();
 

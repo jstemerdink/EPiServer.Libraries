@@ -39,6 +39,7 @@
     <CodeAnalysisRuleSet>..\Solution Files\EPiServer.Libraries.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <DocumentationFile>bin\Release\EPiServer.Libraries.ContentProviders.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -52,19 +53,9 @@
       <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="EPiServer.ApplicationModules, Version=7.0.859.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.Framework.7.0.859.16\lib\net40\EPiServer.ApplicationModules.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="EPiServer.BaseLibrary, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.BaseLibrary.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.Blog, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.Blog.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="EPiServer.Configuration, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
@@ -77,16 +68,6 @@
       <HintPath>..\packages\EPiServer.Framework.7.0.859.16\lib\net40\EPiServer.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="EPiServer.Data.Cache, Version=7.0.859.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.Framework.7.0.859.16\lib\net40\EPiServer.Data.Cache.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.Enterprise, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.Enterprise.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="EPiServer.Events, Version=7.0.859.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EPiServer.Framework.7.0.859.16\lib\net40\EPiServer.Events.dll</HintPath>
@@ -97,72 +78,14 @@
       <HintPath>..\packages\EPiServer.Framework.7.0.859.16\lib\net40\EPiServer.Framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="EPiServer.ImageLibrary, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.ImageLibrary.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.Implementation, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.Implementation.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.Licensing, Version=7.0.859.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.Framework.7.0.859.16\lib\net40\EPiServer.Licensing.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.LinkAnalyzer, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.LinkAnalyzer.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.Scheduler, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.Scheduler.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.Scheduler.WKTL, Version=5.1.422.4, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <Private>False</Private>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.Scheduler.WKTL.dll</HintPath>
-    </Reference>
-    <Reference Include="EPiServer.Shell, Version=7.0.859.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.Framework.7.0.859.16\lib\net40\EPiServer.Shell.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="EPiServer.UI, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="EPiServer.Web.WebControls, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.Web.WebControls.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.WebDav">
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.WebDav.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="EPiServer.WebParts, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.WebParts.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.WorkflowFoundation, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.WorkflowFoundation.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.XForms, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.XForms.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EPiServer.XmlRpc, Version=7.0.586.16, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EPiServer.CMS.Core.7.0.586.16\lib\net40\EPiServer.XmlRpc.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -171,17 +94,11 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClonedContentProviderInitialization.cs" />
