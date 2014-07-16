@@ -37,7 +37,7 @@ Add ```/pdf```, ```/xml```, ```/txt``` or ```/json``` to the url and it gets ren
 
 ## Code specifics
 
-For the basics of partial routing read the [SDK](http://sdkbeta.episerver.com/SDK-html-Container/?path=/SdkDocuments/CMS/7/Knowledge%20Base/Developer%20Guide/Partial%20Routing/Partial%20Routing.htm&vppRoot=/SdkDocuments//CMS/7/Knowledge%20Base/Developer%20Guide/).
+For the basics of partial routing read the [SDK](http://world.episerver.com/Documentation/Items/Developers-Guide/EPiServer-CMS/75/Routing/Partial-routing/Partial-routing/).
 
 The router checks if there is an output segment in the url, checks if the requested output is enabled, renders the output and returns the url without the format.
 
