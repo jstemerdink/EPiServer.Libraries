@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Localization", "EPiServer.Libraries.Localization\EPiServer.Libraries.Localization.csproj", "{4750AA22-03A8-48CB-A78E-32AE161C8C67}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.UnitTests", "EPiServer.Libraries.UnitTests\EPiServer.Libraries.UnitTests.csproj", "{55496069-853B-47C8-B54F-DF8DFB4231F3}"
@@ -21,6 +23,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.ContentProviders", "EPiServer.Libraries.ContentProviders\EPiServer.Libraries.ContentProviders.csproj", "{1917A4E0-DFF1-4DCA-87D1-887524D6C900}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Aspects", "EPiServer.Libraries.Aspects\EPiServer.Libraries.Aspects.csproj", "{74D1A13C-9454-4BAA-9A80-B0233800786E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Controls", "EPiServer.Libraries.Controls\EPiServer.Libraries.Controls.csproj", "{40C1A396-6C29-40BA-AA46-48FE5A981ECF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +64,10 @@ Global
 		{74D1A13C-9454-4BAA-9A80-B0233800786E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74D1A13C-9454-4BAA-9A80-B0233800786E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74D1A13C-9454-4BAA-9A80-B0233800786E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

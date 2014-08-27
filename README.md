@@ -18,3 +18,5 @@ By Jeroen Stemerdink
 
 [PostSharp Aspects or use with EPiServer 7](EPiServer.Libraries.Aspects/README.md)
 
+[WebControls for EPiServer 7. ](EPiServer.Libraries.Controls/README.md)
+
