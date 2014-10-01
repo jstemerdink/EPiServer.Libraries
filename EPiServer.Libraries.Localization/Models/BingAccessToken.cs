@@ -21,22 +21,39 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
+namespace EPiServer.Libraries.Localization.Models
+{
+    /// <summary>
+    ///     Class BingAccessToken.
+    /// </summary>
+    public class BingAccessToken
+    {
+        #region Public Properties
 
-using log4net.Config;
+        /// <summary>
+        ///     Gets or sets the access_token.
+        /// </summary>
+        /// <value>The access_token.</value>
+        public string access_token { get; set; }
 
-[assembly: AssemblyTitle("EPiServer.Libraries.Localization")]
-[assembly: AssemblyDescription("Library to create translations within an EPiServer site.")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jeroen Stemerdink")]
-[assembly: AssemblyProduct("EPiServer.Libraries.Localization")]
-[assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2014")]
-[assembly: AssemblyTrademark("")]
-[assembly: ComVisible(false)]
-[assembly: CLSCompliant(false)]
-[assembly: Guid("d6158e5e-1682-4753-9706-b26935a98ee8")]
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
-[assembly: XmlConfigurator(Watch = true)]
+        /// <summary>
+        ///     Gets or sets the expires_in.
+        /// </summary>
+        /// <value>The expires_in.</value>
+        public string expires_in { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the scope.
+        /// </summary>
+        /// <value>The scope.</value>
+        public string scope { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the token_type.
+        /// </summary>
+        /// <value>The token_type.</value>
+        public string token_type { get; set; }
+
+        #endregion
+    }
+}

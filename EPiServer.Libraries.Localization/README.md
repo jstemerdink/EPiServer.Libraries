@@ -79,6 +79,8 @@ On the “TranslationItem” I have added three properties you can use on a temp
 * ```LookupKey```: the key to use in e.g. the Translate WebControl.
 * ```TranslatedValues```:  a dictionary containing the language and the translation.
 
+Adding a '''localization.bing.clientid''' and '''localization.bing.clientsecret''' to the appsettings wil create a lanaguage version for all enabled languages that have no language version when publishing your translation.
+
 
 ## Requirements
 

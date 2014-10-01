@@ -1,25 +1,42 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TranslationProviderInitialization.cs" company="Jeroen Stemerdink">
-//   Copyright© 2013 Jeroen Stemerdink. All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Copyright© 2014 Jeroen Stemerdink. All Rights Reserved.
+// 
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+
+using System;
+using System.Collections.Specialized;
+using System.Linq;
+
+using EPiServer.Events;
+using EPiServer.Events.Clients;
+using EPiServer.Framework;
+using EPiServer.Framework.Initialization;
+using EPiServer.Framework.Localization;
+using EPiServer.Libraries.Localization.Models;
+using EPiServer.ServiceLocation;
+
+using log4net;
 
 namespace EPiServer.Libraries.Localization
 {
-    using System;
-    using System.Collections.Specialized;
-    using System.Linq;
-
-    using EPiServer.Events;
-    using EPiServer.Events.Clients;
-    using EPiServer.Framework;
-    using EPiServer.Framework.Initialization;
-    using EPiServer.Framework.Localization;
-    using EPiServer.Libraries.Localization.Models;
-    using EPiServer.ServiceLocation;
-
-    using log4net;
-
     /// <summary>
     ///     The initialization module for the translation provider.
     /// </summary>
@@ -36,9 +53,10 @@ namespace EPiServer.Libraries.Localization
 
         #endregion
 
+        // Generate unique id for the reload event.
+
         #region Static Fields
 
-        // Generate unique id for the reload event.
         private static readonly Guid EventId = new Guid("9674113d-5135-49ff-8d2b-80ee6ae8f9e9");
 
         /// <summary>
@@ -122,7 +140,7 @@ namespace EPiServer.Libraries.Localization
             context.InitComplete += this.InitComplete;
 
             // Attach events to update the translations when a translation or container is published, moved or deleted.
-            DataFactory.Instance.PublishedPage += this.InstanceChangedPage;
+            DataFactory.Instance.PublishedPage += this.InstancePublishedPage;
             DataFactory.Instance.MovedPage += this.InstanceChangedPage;
             DataFactory.Instance.DeletedPage += this.InstanceChangedPage;
 
@@ -251,6 +269,12 @@ namespace EPiServer.Libraries.Localization
             Log.Info("[Localization] Translation provider not found, no translations loaded.");
         }
 
+        private static void RaiseEvent(string message)
+        {
+            // Raise the TranslationsUpdated event.
+            Event.Get(EventId).Raise(RaiserId, message);
+        }
+
         /// <summary>
         ///     Get the localization provider.
         /// </summary>
@@ -299,6 +323,26 @@ namespace EPiServer.Libraries.Localization
             RaiseEvent("[Localization] Translation updated.");
         }
 
+        private void InstancePublishedPage(object sender, PageEventArgs e)
+        {
+            if (e == null)
+            {
+                return;
+            }
+
+            if (!(e.Page is TranslationContainer) && !(e.Page is TranslationItem)
+                && !(e.Page is CategoryTranslationContainer))
+            {
+                return;
+            }
+
+            TranslationFactory.Instance.TranslateThemAll(e.Page);
+
+            this.ReloadProvider();
+
+            RaiseEvent("[Localization] Translation updated.");
+        }
+
         /// <summary>
         ///     Loads the provider.
         /// </summary>
@@ -335,12 +379,6 @@ namespace EPiServer.Libraries.Localization
             LoadTranslations(translationProviderProvider);
 
             return true;
-        }
-
-        private static void RaiseEvent(string message)
-        {
-            // Raise the TranslationsUpdated event.
-            Event.Get(EventId).Raise(RaiserId, message);
         }
 
         /// <summary>

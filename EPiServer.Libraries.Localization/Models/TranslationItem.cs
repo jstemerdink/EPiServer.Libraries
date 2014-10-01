@@ -1,28 +1,45 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TranslationItem.cs" company="Jeroen Stemerdink">
-//   Copyright© 2013 Jeroen Stemerdink. All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Copyright© 2014 Jeroen Stemerdink. All Rights Reserved.
+// 
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+using EPiServer.Core;
+using EPiServer.DataAbstraction;
+using EPiServer.DataAnnotations;
 
 namespace EPiServer.Libraries.Localization.Models
 {
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text.RegularExpressions;
-
-    using EPiServer.Core;
-    using EPiServer.DataAbstraction;
-    using EPiServer.DataAnnotations;
-
     /// <summary>
     ///     The translation PageType.
     /// </summary>
-    [ContentType(GUID = "{A691F851-6C6E-4C06-B62E-8FBC5A038A68}", AvailableInEditMode = true, 
+    [ContentType(GUID = "{A691F851-6C6E-4C06-B62E-8FBC5A038A68}", AvailableInEditMode = true,
         Description = "Translation", DisplayName = "Translation", GroupName = "Localization")]
-    [AvailablePageTypes(Exclude = new[] { typeof(PageData) })]
+    [AvailableContentTypes(Exclude = new[] { typeof(PageData) })]
     public class TranslationItem : PageData
     {
         #region Public Properties
@@ -31,10 +48,10 @@ namespace EPiServer.Libraries.Localization.Models
         ///     Gets the lookup key this item.
         /// </summary>
         /// <remarks>
-        /// Only for normal translation items. Displays the path to use in e.g. the translate control.
+        ///     Only for normal translation items. Displays the path to use in e.g. the translate control.
         ///     <![CDATA[
         ///         <EPiServer:Translate runat="server" Text="/jeroenstemerdink/textone" />
-        ///     ]]> 
+        ///     ]]>
         /// </remarks>
         public string LookupKey
         {
@@ -48,7 +65,8 @@ namespace EPiServer.Libraries.Localization.Models
 
                 // Use the masterlanguage branch, that one is always available.
                 PageData masterLanguagePage = DataFactory.Instance.GetPage(
-                    this.PageLink, new LanguageSelector(this.MasterLanguageBranch));
+                    this.PageLink,
+                    new LanguageSelector(this.MasterLanguageBranch));
 
                 // Get the ancestors
                 IEnumerable<IContent> ancestors =
@@ -57,11 +75,10 @@ namespace EPiServer.Libraries.Localization.Models
                 // Get all translation containers, skip the main one.
                 List<string> keyParts =
                     ancestors.OfType<TranslationContainer>()
-                             .Select(
-                                 ancestor =>
-                                 Regex.Replace(ancestor.Name.ToLowerInvariant(), @"[^A-Za-z0-9]+", string.Empty))
-                             .Skip(1)
-                             .ToList();
+                        .Select(
+                            ancestor => Regex.Replace(ancestor.Name.ToLowerInvariant(), @"[^A-Za-z0-9]+", string.Empty))
+                        .Skip(1)
+                        .ToList();
 
                 // Add this file
                 keyParts.Add(Regex.Replace(this.OriginalText.ToLowerInvariant(), @"[^A-Za-z0-9]+", string.Empty));
@@ -79,8 +96,8 @@ namespace EPiServer.Libraries.Localization.Models
             {
                 IEnumerable<CultureInfo> availableLanguages =
                     DataFactory.Instance.GetLanguageBranches(ContentReference.StartPage)
-                               .Select(pageData => pageData.Language)
-                               .ToList();
+                        .Select(pageData => pageData.Language)
+                        .ToList();
 
                 PageDataCollection allLanguages = DataFactory.Instance.GetLanguageBranches(this.PageLink);
 
@@ -109,6 +126,7 @@ namespace EPiServer.Libraries.Localization.Models
         ///     ]]>
         /// </example>
         [Display(GroupName = SystemTabNames.Content, Description = "The text to translate.", Name = "Original text")]
+        [CultureSpecific(false)]
         [Required(AllowEmptyStrings = false)]
         public virtual string OriginalText { get; set; }
 
@@ -124,7 +142,7 @@ namespace EPiServer.Libraries.Localization.Models
                 return
                     new Dictionary<string, string>(
                         allLanguages.ToDictionary(
-                            language => new CultureInfo(language.LanguageID).NativeName, 
+                            language => new CultureInfo(language.LanguageID).NativeName,
                             language => ((TranslationItem)language).Translation));
             }
         }
@@ -132,7 +150,7 @@ namespace EPiServer.Libraries.Localization.Models
         /// <summary>
         ///     Gets or sets the translation.
         /// </summary>
-        [Display(GroupName = SystemTabNames.Content, Description = "The translation of the original text.", 
+        [Display(GroupName = SystemTabNames.Content, Description = "The translation of the original text.",
             Name = "Translation")]
         [CultureSpecific]
         [Required(AllowEmptyStrings = false)]
@@ -143,13 +161,13 @@ namespace EPiServer.Libraries.Localization.Models
         #region Public Methods and Operators
 
         /// <summary>
-        /// Sets the default property values on the page data.
+        ///     Sets the default property values on the page data.
         /// </summary>
         /// <param name="contentType">
-        /// The type of content.
+        ///     The type of content.
         /// </param>
         /// <example>
-        /// <code source="../CodeSamples/EPiServer/Core/PageDataSamples.aspx.cs" region="DefaultValues">
+        ///     <code source="../CodeSamples/EPiServer/Core/PageDataSamples.aspx.cs" region="DefaultValues">
         /// </code>
         /// </example>
         public override void SetDefaultValues(ContentType contentType)

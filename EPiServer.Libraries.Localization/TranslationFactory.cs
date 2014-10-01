@@ -1,27 +1,51 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TranslationFactory.cs" company="Jeroen Stemerdink">
-//   Copyright© 2013 Jeroen Stemerdink. All Rights Reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Copyright© 2014 Jeroen Stemerdink. All Rights Reserved.
+// 
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Runtime.Serialization.Json;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Xml;
+using System.Xml.Linq;
+
+using EPiServer.Core;
+using EPiServer.DataAbstraction;
+using EPiServer.DataAccess;
+using EPiServer.Libraries.Localization.Models;
+using EPiServer.Security;
+using EPiServer.ServiceLocation;
+
+using log4net;
 
 namespace EPiServer.Libraries.Localization
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using System.Xml;
-    using System.Xml.Linq;
-
-    using EPiServer.Core;
-    using EPiServer.Libraries.Localization.Models;
-    using EPiServer.ServiceLocation;
-
-    using log4net;
-
     /// <summary>
     ///     The TranslationFactory class, used for translation queries.
     /// </summary>
@@ -33,6 +57,17 @@ namespace EPiServer.Libraries.Localization
         ///     The backup xml, to be returned when something goes wrong.
         /// </summary>
         private const string BackupXML = @"<?xml version='1.0' encoding='utf-8'?><languages></languages>";
+
+        /// <summary>
+        ///     The url to Bing authentication
+        /// </summary>
+        private const string TranslatorAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
+
+        /// <summary>
+        ///     The url to Bing translation
+        /// </summary>
+        private const string TranslatorUri =
+            "http://api.microsofttranslator.com/v2/Http.svc/Translate?text={0}&from={1}&to={2}";
 
         #endregion
 
@@ -61,6 +96,21 @@ namespace EPiServer.Libraries.Localization
         ///     The available languages
         /// </summary>
         private IEnumerable<CultureInfo> availableLanguages;
+
+        /// <summary>
+        ///     The bing access token
+        /// </summary>
+        private BingAccessToken bingAccessToken;
+
+        /// <summary>
+        ///     The bing client identifier
+        /// </summary>
+        private string bingClientID;
+
+        /// <summary>
+        ///     The bing client secret
+        /// </summary>
+        private string bingClientSecret;
 
         /// <summary>
         ///     The content repository
@@ -95,14 +145,16 @@ namespace EPiServer.Libraries.Localization
             get
             {
                 // Double checked locking
-                if (instance == null)
+                if (instance != null)
                 {
-                    lock (SyncLock)
+                    return instance;
+                }
+
+                lock (SyncLock)
+                {
+                    if (instance == null)
                     {
-                        if (instance == null)
-                        {
-                            instance = new TranslationFactory();
-                        }
+                        instance = new TranslationFactory();
                     }
                 }
 
@@ -118,6 +170,43 @@ namespace EPiServer.Libraries.Localization
             get
             {
                 return this.availableLanguages ?? (this.availableLanguages = this.GetAvailableLanguages());
+            }
+        }
+
+        /// <summary>
+        ///     Gets the Bing access token.
+        /// </summary>
+        /// <value>The adm access token.</value>
+        public BingAccessToken BingAccessToken
+        {
+            get
+            {
+                return this.bingAccessToken ?? (this.bingAccessToken = this.GetAccesToken());
+            }
+        }
+
+        /// <summary>
+        ///     Gets the Bing client identifier.
+        /// </summary>
+        /// <value>The Bing client identifier.</value>
+        public string BingClientID
+        {
+            get
+            {
+                return this.bingClientID
+                       ?? (this.bingClientID = ConfigurationManager.AppSettings["localization.bing.clientid"]);
+            }
+        }
+
+        /// <summary>
+        ///     Gets the Bing client identifier.
+        /// </summary>
+        /// <value>The Bing client identifier.</value>
+        public string BingClientSecret
+        {
+            get
+            {
+                return this.bingClientSecret ?? (this.bingClientSecret = ConfigurationManager.AppSettings["localization.bing.clientsecret"]);
             }
         }
 
@@ -162,50 +251,74 @@ namespace EPiServer.Libraries.Localization
         public string GetXDocument()
         {
             XElement returnXml = null;
-            MemoryStream ms = null;
+            MemoryStream memoryStream = null;
 
             try
             {
-                ms = new MemoryStream();
+                memoryStream = new MemoryStream();
 
-                XmlWriter xw = XmlWriter.Create(
-                    ms, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = false, Encoding = Encoding.UTF8 });
+                XmlWriter xmlWriter = XmlWriter.Create(
+                    memoryStream,
+                    new XmlWriterSettings { Indent = true, OmitXmlDeclaration = false, Encoding = Encoding.UTF8 });
 
-                xw.WriteStartDocument();
-                xw.WriteStartElement("languages");
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("languages");
 
                 foreach (CultureInfo cultureInfo in this.AvailableLanguages)
                 {
-                    xw.WriteStartElement("language");
-                    xw.WriteAttributeString("name", cultureInfo.NativeName);
-                    xw.WriteAttributeString("id", cultureInfo.Name);
+                    xmlWriter.WriteStartElement("language");
+                    xmlWriter.WriteAttributeString("name", cultureInfo.NativeName);
+                    xmlWriter.WriteAttributeString("id", cultureInfo.Name);
 
-                    this.AddElement(xw, this.TranslationContainerReference, cultureInfo);
+                    this.AddElement(xmlWriter, this.TranslationContainerReference, cultureInfo);
 
-                    xw.WriteEndElement();
+                    xmlWriter.WriteEndElement();
                 }
 
-                xw.WriteEndElement();
-                xw.WriteEndDocument();
-                xw.Flush();
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndDocument();
+                xmlWriter.Flush();
 
-                ms.Position = 0;
+                memoryStream.Position = 0;
 
-                XmlReader xr = XmlReader.Create(ms);
+                XmlReader xr = XmlReader.Create(memoryStream);
 
                 returnXml = XElement.Load(xr);
 
-                xw.Close();
+                xmlWriter.Close();
             }
             catch (Exception)
             {
-                if (ms != null)
+                if (memoryStream != null)
                 {
-                    ms.Dispose();
+                    memoryStream.Dispose();
                 }
             }
 
             return returnXml != null ? returnXml.ToString() : XDocument.Parse(BackupXML).ToString();
+        }
+
+        /// <summary>
+        ///     Translates them all.
+        /// </summary>
+        /// <param name="page">The page.</param>
+        public void TranslateThemAll(PageData page)
+        {
+            if (this.BingAccessToken == null)
+            {
+                return;
+            }
+
+            ILanguageBranchRepository languageBrancheRepository =
+                ServiceLocator.Current.GetInstance<ILanguageBranchRepository>();
+
+            List<LanguageBranch> enabledLanguages = languageBrancheRepository.ListEnabled().ToList();
+
+            foreach (LanguageBranch languageBranch in
+                enabledLanguages.Where(lb => lb.Culture.Name != page.LanguageBranch))
+            {
+                this.CreateLanguageBranch(page, languageBranch.Culture.Name);
+            }
         }
 
         #endregion
@@ -213,16 +326,16 @@ namespace EPiServer.Libraries.Localization
         #region Methods
 
         /// <summary>
-        /// Add a category element.
+        ///     Add a category element.
         /// </summary>
         /// <param name="xmlWriter">
-        /// The xmlWriter.
+        ///     The xmlWriter.
         /// </param>
         /// <param name="container">
-        /// The container.
+        ///     The container.
         /// </param>
         /// <param name="cultureInfo">
-        /// The culture info.
+        ///     The culture info.
         /// </param>
         private void AddCategoryElement(XmlWriter xmlWriter, ContentReference container, CultureInfo cultureInfo)
         {
@@ -232,8 +345,8 @@ namespace EPiServer.Libraries.Localization
                 children.Select(
                     contentReference =>
                     this.ContentRepository.Get<PageData>(contentReference, new LanguageSelector(cultureInfo.Name)))
-                        .OfType<TranslationItem>()
-                        .Select(page => page))
+                    .OfType<TranslationItem>()
+                    .Select(page => page))
             {
                 xmlWriter.WriteStartElement("category");
                 xmlWriter.WriteAttributeString("name", translationItem.OriginalText);
@@ -243,16 +356,16 @@ namespace EPiServer.Libraries.Localization
         }
 
         /// <summary>
-        /// The add element.
+        ///     The add element.
         /// </summary>
         /// <param name="xw">
-        /// The xmlWriter.
+        ///     The xmlWriter.
         /// </param>
         /// <param name="container">
-        /// The container.
+        ///     The container.
         /// </param>
         /// <param name="cultureInfo">
-        /// The culture info.
+        ///     The culture info.
         /// </param>
         private void AddElement(XmlWriter xw, ContentReference container, CultureInfo cultureInfo)
         {
@@ -266,7 +379,9 @@ namespace EPiServer.Libraries.Localization
                 if (translationContainer != null)
                 {
                     string key = Regex.Replace(
-                        translationContainer.Name.ToLowerInvariant(), @"[^A-Za-z0-9]+", string.Empty);
+                        translationContainer.ContainerName.ToLowerInvariant(),
+                        @"[^A-Za-z0-9]+",
+                        string.Empty);
                     xw.WriteStartElement(key);
 
                     this.AddElement(xw, child.PageLink, cultureInfo);
@@ -290,9 +405,155 @@ namespace EPiServer.Libraries.Localization
                 if (translationItem != null)
                 {
                     string key = Regex.Replace(
-                        translationItem.OriginalText.ToLowerInvariant(), @"[^A-Za-z0-9]+", string.Empty);
+                        translationItem.OriginalText.ToLowerInvariant(),
+                        @"[^A-Za-z0-9]+",
+                        string.Empty);
                     xw.WriteElementString(key, translationItem.Translation);
                 }
+            }
+        }
+
+        private string BingTranslate(string tobetranslated, string fromLang, string toLang)
+        {
+            string headerValue = string.Format(
+                CultureInfo.InvariantCulture,
+                "Bearer {0}",
+                this.BingAccessToken.access_token);
+
+            string uri = string.Format(
+                CultureInfo.InvariantCulture,
+                TranslatorUri,
+                HttpUtility.UrlEncode(tobetranslated),
+                fromLang,
+                toLang);
+
+            try
+            {
+                WebRequest translationWebRequest = WebRequest.Create(uri);
+                translationWebRequest.Headers.Add("Authorization", headerValue);
+
+                WebResponse response = translationWebRequest.GetResponse();
+                Stream stream = response.GetResponseStream();
+                Encoding encode = Encoding.GetEncoding("utf-8");
+
+                if (stream == null)
+                {
+                    return null;
+                }
+
+                StreamReader translatedStream = new StreamReader(stream, encode);
+                XmlDocument xTranslation = new XmlDocument();
+                xTranslation.LoadXml(translatedStream.ReadToEnd());
+
+                return xTranslation.InnerText;
+            }
+            catch (Exception exception)
+            {
+                Logger.Error("[Localization] Error getting translations from Bing", exception);
+                return null;
+            }
+        }
+
+        private void CreateLanguageBranch(PageData page, string languageBranch)
+        {
+            // Check if language already exists
+            bool languageExists =
+                this.ContentRepository.GetLanguageBranches<PageData>(page.PageLink)
+                    .Any(p => string.Compare(p.LanguageBranch, languageBranch, StringComparison.OrdinalIgnoreCase) == 0);
+
+            if (languageExists)
+            {
+                return;
+            }
+
+            TranslationItem translationItem = page as TranslationItem;
+
+            if (translationItem != null)
+            {
+                TranslationItem languageItemVersion =
+                    this.ContentRepository.CreateLanguageBranch<TranslationItem>(
+                        page.PageLink,
+                        new LanguageSelector(languageBranch));
+
+                languageItemVersion.PageName = page.PageName;
+                languageItemVersion.URLSegment = page.URLSegment;
+
+                string translatedText = this.BingTranslate(
+                    translationItem.OriginalText,
+                    page.LanguageID.Split(new char['-'])[0],
+                    languageItemVersion.LanguageID.Split(new char['-'])[0]);
+
+                if (translatedText == null)
+                {
+                    return;
+                }
+
+                languageItemVersion.Translation = translatedText;
+
+                if (!string.IsNullOrWhiteSpace(languageItemVersion.Translation))
+                {
+                    this.ContentRepository.Save(languageItemVersion, SaveAction.Publish, AccessLevel.NoAccess);
+                }
+            }
+            else
+            {
+                PageData languageVersion = this.ContentRepository.CreateLanguageBranch<PageData>(
+                    page.PageLink,
+                    new LanguageSelector(languageBranch));
+
+                languageVersion.PageName = page.PageName;
+                languageVersion.URLSegment = page.URLSegment;
+
+                this.ContentRepository.Save(languageVersion, SaveAction.Publish, AccessLevel.NoAccess);
+            }
+        }
+
+        private BingAccessToken GetAccesToken()
+        {
+            if (string.IsNullOrWhiteSpace(this.BingClientID) | string.IsNullOrWhiteSpace(this.BingClientSecret))
+            {
+                return null;
+            }
+
+            string requestDetails = string.Format(
+                CultureInfo.InvariantCulture,
+                "grant_type=client_credentials&client_id={0}&client_secret={1} &scope=http://api.microsofttranslator.com",
+                HttpUtility.UrlEncode(this.BingClientID),
+                HttpUtility.UrlEncode(this.BingClientSecret));
+
+            byte[] bytes = Encoding.ASCII.GetBytes(requestDetails);
+
+            try
+            {
+                WebRequest webRequest = WebRequest.Create(TranslatorAccessUri);
+                webRequest.ContentType = "application/x-www-form-urlencoded";
+                webRequest.Method = "POST";
+                webRequest.ContentLength = bytes.Length;
+
+                using (Stream outputStream = webRequest.GetRequestStream())
+                {
+                    outputStream.Write(bytes, 0, bytes.Length);
+                }
+
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(BingAccessToken));
+
+                WebResponse webResponse = webRequest.GetResponse();
+
+                Stream responseStream = webResponse.GetResponseStream();
+
+                if (responseStream == null)
+                {
+                    return null;
+                }
+
+                BingAccessToken token = (BingAccessToken)serializer.ReadObject(responseStream);
+
+                return token;
+            }
+            catch (Exception exception)
+            {
+                Logger.Error("[Localization] Error getting authentication from Bing", exception);
+                return null;
             }
         }
 
@@ -320,23 +581,30 @@ namespace EPiServer.Libraries.Localization
         /// </returns>
         private PageReference GetTranslationContainer()
         {
-            PageReference containerPageReference = this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
+            PageReference containerPageReference =
+                this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
                     .GetPropertyValue("TranslationContainer", ContentReference.StartPage);
 
-            if (containerPageReference == ContentReference.StartPage)
+            if (containerPageReference != ContentReference.StartPage)
             {
-                Logger.Info("[Localization] No translation container specified.");
-
-                TranslationContainer containerReference =
-                    this.ContentRepository.GetChildren<PageData>(containerPageReference).OfType<TranslationContainer>().FirstOrDefault();
-
-                if (containerReference != null)
-                {
-                    Logger.Info("[Localization] First translation container used.");
-
-                    containerPageReference = containerReference.PageLink;
-                }
+                return containerPageReference;
             }
+
+            Logger.Info("[Localization] No translation container specified.");
+
+            TranslationContainer containerReference =
+                this.ContentRepository.GetChildren<PageData>(containerPageReference)
+                    .OfType<TranslationContainer>()
+                    .FirstOrDefault();
+
+            if (containerReference == null)
+            {
+                return containerPageReference;
+            }
+
+            Logger.Info("[Localization] First translation container used.");
+
+            containerPageReference = containerReference.PageLink;
 
             return containerPageReference;
         }
