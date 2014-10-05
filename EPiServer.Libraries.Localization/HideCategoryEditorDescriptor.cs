@@ -32,13 +32,28 @@ using EPiServer.Shell.ObjectEditing.EditorDescriptors;
 
 namespace EPiServer.Libraries.Localization
 {
+    /// <summary>
+    /// Class HideCategoryEditorDescriptor.
+    /// </summary>
     [EditorDescriptorRegistration(TargetType = typeof(CategoryList))]
-    internal class HideCategoryEditorDescriptor : EditorDescriptor
+    public class HideCategoryEditorDescriptor : EditorDescriptor
     {
         #region Public Methods and Operators
 
+        /// <summary>
+        /// Modifies the metadata, adding any custom data the client needs.
+        /// </summary>
+        /// <param name="metadata">The metadata.</param>
+        /// <param name="attributes">The custom attributes attached to the model class</param>
+        /// <remarks>This method should only be overriden when you need the entire metedata object to work with.
+        /// Otherwise, metadata properties should be set by setting the corresponding properties in the editor concrete descriptors' constructor.
+        /// Also be aware that modifying metadata object will overwrite all data annotation attributes used in model class.</remarks>
         public override void ModifyMetadata(ExtendedMetadata metadata, IEnumerable<Attribute> attributes)
         {
+            if (metadata == null)
+            {
+                return;
+            }
             base.ModifyMetadata(metadata, attributes);
 
             ContentDataMetadata contentMetadata = (ContentDataMetadata)metadata;
