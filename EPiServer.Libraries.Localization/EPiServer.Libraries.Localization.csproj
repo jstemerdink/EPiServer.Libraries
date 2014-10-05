@@ -69,6 +69,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EPiServer.CMS.Core.7.7.1\lib\net40\EPiServer.BaseLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="EPiServer.Cms.Shell.UI">
+      <HintPath>..\..\..\..\Web\EPiServerNewRelic\packages\EPiServer.CMS.UI.Core.7.8.2\lib\net40\EPiServer.Cms.Shell.UI.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.Configuration, Version=7.7.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EPiServer.CMS.Core.7.7.1\lib\net40\EPiServer.Configuration.dll</HintPath>
@@ -177,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="HideCategoryEditorDescriptor.cs" />
     <Compile Include="Models\BingAccessToken.cs" />
     <Compile Include="Models\CategoryTranslationContainer.cs" />
     <Compile Include="Models\TranslationContainer.cs" />
