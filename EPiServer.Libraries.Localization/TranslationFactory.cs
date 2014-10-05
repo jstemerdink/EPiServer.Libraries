@@ -565,6 +565,11 @@ namespace EPiServer.Libraries.Localization
         /// </returns>
         private IEnumerable<CultureInfo> GetAvailableLanguages()
         {
+            if (PageReference.IsNullOrEmpty(this.TranslationContainerReference))
+            {
+                return new List<CultureInfo>();
+            }
+
             IEnumerable<CultureInfo> languages =
                 this.ContentRepository.GetLanguageBranches<PageData>(this.TranslationContainerReference)
                     .Select(pageData => pageData.Language)
@@ -581,6 +586,11 @@ namespace EPiServer.Libraries.Localization
         /// </returns>
         private PageReference GetTranslationContainer()
         {
+            if (PageReference.IsNullOrEmpty(ContentReference.StartPage))
+            {
+                return PageReference.EmptyReference;
+            }
+
             PageReference containerPageReference =
                 this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
                     .GetPropertyValue("TranslationContainer", ContentReference.StartPage);
