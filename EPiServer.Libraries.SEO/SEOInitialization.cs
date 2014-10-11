@@ -63,6 +63,24 @@ namespace EPiServer.Libraries.SEO
         /// <value>The content type respository.</value>
         protected Injected<IContentTypeRepository> ContentTypeRepository { get; set; }
 
+        /// <summary>
+        /// Gets or sets the content repository.
+        /// </summary>
+        /// <value>The content repository.</value>
+        protected Injected<IContentRepository> ContentRepository { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum items.
+        /// </summary>
+        /// <value>The maximum items.</value>
+        private int MaxItems { get; set; }
+
+        /// <summary>
+        /// Gets or sets the alchemy key.
+        /// </summary>
+        /// <value>The alchemy key.</value>
+        private string AlchemyKey { get; set; }
+
         #endregion
 
         #region Static Fields
@@ -111,6 +129,14 @@ namespace EPiServer.Libraries.SEO
 
             if (keywordsMetatagProperty == null)
             {
+                return;
+            }
+
+            this.GetSettings();
+
+            if (string.IsNullOrWhiteSpace(this.AlchemyKey))
+            {
+                Logger.Info("[SEO] Alchemy API key not set.");
                 return;
             }
 
@@ -174,7 +200,7 @@ namespace EPiServer.Libraries.SEO
         /// Gets the name of the key word property.
         /// </summary>
         /// <param name="page">The page.</param>
-        /// <returns>System.String.</returns>
+        /// <returns>PropertyInfo.</returns>
         private static PropertyInfo GetKeyWordProperty(PageData page)
         {
             PropertyInfo keywordsMetatagProperty =
@@ -201,15 +227,16 @@ namespace EPiServer.Libraries.SEO
         /// </summary>
         /// <param name="text">The text.</param>
         /// <returns>List&lt;System.String&gt;.</returns>
-        private static List<string> TextGetRankedKeywords(string text)
+        private List<string> TextGetRankedKeywords(string text)
         {
             try
             {
                 string uri = string.Format(
                     CultureInfo.InvariantCulture,
-                    "http://access.alchemyapi.com/calls/text/TextGetRankedKeywords?apikey={0}&text={1}&maxRetrieve=20&keywordExtractMode=strict&outputMode=json",
-                    ConfigurationManager.AppSettings["seo.alchemy.key"],
-                    HttpUtility.UrlEncode(text));
+                    "http://access.alchemyapi.com/calls/text/TextGetRankedKeywords?apikey={0}&text={1}&maxRetrieve={2}&keywordExtractMode=strict&outputMode=json",
+                    this.AlchemyKey,
+                    HttpUtility.UrlEncode(text),
+                    this.MaxItems);
 
                 WebRequest translationWebRequest = WebRequest.Create(uri);
                 translationWebRequest.Method = "POST";
@@ -291,6 +318,36 @@ namespace EPiServer.Libraries.SEO
             return this.GetSearchablePropertyValues(contentData, this.ContentTypeRepository.Service.Load(contentTypeID));
         }
 
+        private void GetSettings()
+        {
+            const int maxItems = 20;
+            string alchemyKey = ConfigurationManager.AppSettings["seo.alchemy.key"];
+
+            PageData startPageData = this.ContentRepository.Service.Get<PageData>(ContentReference.StartPage);
+
+            PropertyInfo keywordSettingsProperty =
+                startPageData.GetType().GetProperties().Where(HasAttribute<KeywordGenerationSettingsAttribute>).FirstOrDefault();
+
+            if (keywordSettingsProperty == null)
+            {
+                this.MaxItems = maxItems;
+                this.AlchemyKey = alchemyKey;
+                return;
+            }
+
+            KeywordGenerationSettingsBlock keywordGenerationSettings =
+                startPageData[keywordSettingsProperty.Name] as KeywordGenerationSettingsBlock;
+
+            if (keywordGenerationSettings == null)
+            {
+                this.MaxItems = maxItems;
+                this.AlchemyKey = alchemyKey;
+                return;
+            }
+
+            this.MaxItems = keywordGenerationSettings.MaxItems > 0 ? keywordGenerationSettings.MaxItems : maxItems;
+            this.AlchemyKey = !string.IsNullOrWhiteSpace(keywordGenerationSettings.AlchemyKey) ? keywordGenerationSettings.AlchemyKey : alchemyKey;
+        }
         #endregion
     }
 }
