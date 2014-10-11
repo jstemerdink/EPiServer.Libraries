@@ -26,9 +26,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Aspects
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Controls", "EPiServer.Libraries.Controls\EPiServer.Libraries.Controls.csproj", "{40C1A396-6C29-40BA-AA46-48FE5A981ECF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Search", "EPiServer.Libraries.Search\EPiServer.Libraries.Search.csproj", "{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.SEO", "EPiServer.Libraries.SEO\EPiServer.Libraries.SEO.csproj", "{B7DA01F5-00AF-4FAC-AA86-5EB4F6F10802}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.BlockSearch", "EPiServer.Libraries.BlockSearch\EPiServer.Libraries.BlockSearch.csproj", "{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,14 +72,14 @@ Global
 		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7DA01F5-00AF-4FAC-AA86-5EB4F6F10802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7DA01F5-00AF-4FAC-AA86-5EB4F6F10802}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7DA01F5-00AF-4FAC-AA86-5EB4F6F10802}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7DA01F5-00AF-4FAC-AA86-5EB4F6F10802}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

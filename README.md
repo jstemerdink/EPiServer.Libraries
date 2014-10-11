@@ -22,5 +22,5 @@ By Jeroen Stemerdink
 
 [Add keywords to your pages through Alchemy](EPiServer.Libraries.SEO/README.md)
 
-[Add block content to the index](EPiServer.Libraries.Search/README.md)
+[Add block content to the index](EPiServer.Libraries.BlockSearch/README.md)
 

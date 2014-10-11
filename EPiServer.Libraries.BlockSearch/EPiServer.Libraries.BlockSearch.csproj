@@ -7,8 +7,8 @@
     <ProjectGuid>{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EPiServer.Libraries.Search</RootNamespace>
-    <AssemblyName>EPiServer.Libraries.Search</AssemblyName>
+    <RootNamespace>EPiServer.Libraries.BlockSearch</RootNamespace>
+    <AssemblyName>EPiServer.Libraries.BlockSearch</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -24,7 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\..\..\..\My Projects\EPiServer.Libraries.Development\Solution Files\EPiServer.Libraries.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>bin\Debug\EPiServer.Libraries.Search.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\EPiServer.Libraries.BlockSearch.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -36,7 +36,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\EPiServer.Libraries.Search.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\EPiServer.Libraries.BlockSearch.xml</DocumentationFile>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup>

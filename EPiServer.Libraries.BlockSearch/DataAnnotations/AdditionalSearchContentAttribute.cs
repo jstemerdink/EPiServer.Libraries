@@ -23,7 +23,7 @@
 
 using System;
 
-namespace EPiServer.Libraries.Search.DataAnnotations
+namespace EPiServer.Libraries.BlockSearch.DataAnnotations
 {
     /// <summary>
     ///     Class AdditionalSearchContentAttribute. This class cannot be inherited.

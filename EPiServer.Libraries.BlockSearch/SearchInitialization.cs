@@ -33,11 +33,11 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAccess;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
-using EPiServer.Libraries.Search.DataAnnotations;
+using EPiServer.Libraries.BlockSearch.DataAnnotations;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
 
-namespace EPiServer.Libraries.Search
+namespace EPiServer.Libraries.BlockSearch
 {
     /// <summary>
     /// Class SearchInitialization.
@@ -180,7 +180,7 @@ namespace EPiServer.Libraries.Search
                 {
                     IContent blockData = contentAreaItem.GetContent();
 
-                    IEnumerable<string> props = GetSearchablePropertyValues(blockData, blockData.ContentTypeID);
+                    IEnumerable<string> props = this.GetSearchablePropertyValues(blockData, blockData.ContentTypeID);
 
                     stringBuilder.AppendFormat(" {0}", string.Join(" ", props));
                 }
