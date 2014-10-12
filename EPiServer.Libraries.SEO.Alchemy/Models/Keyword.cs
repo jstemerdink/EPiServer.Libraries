@@ -1,4 +1,4 @@
-﻿// Copyright© 2014 Jeroen Stemerdink. All Rights Reserved.
+// Copyright� 2014 Jeroen Stemerdink. All Rights Reserved.
 // 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -21,25 +21,32 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-
-namespace EPiServer.Libraries.SEO.DataAnnotations
+namespace EPiServer.Libraries.SEO.Alchemy.Models
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public sealed class KeywordGenerationSettingsAttribute : Attribute
+    /// <summary>
+    /// Class Keyword.
+    /// </summary>
+    public class Keyword
     {
         #region Public Properties
 
         /// <summary>
-        ///     Gets a value indicating whether the property is used for the settings.
+        /// Gets or sets the relevance.
         /// </summary>
-        public static bool KeywordGenerationSettings
-        {
-            get
-            {
-                return true;
-            }
-        }
+        /// <value>The relevance.</value>
+        public float relevance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sentiment.
+        /// </summary>
+        /// <value>The sentiment.</value>
+        public Sentiment sentiment { get; set; }
+
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
+        /// <value>The text.</value>
+        public string text { get; set; }
 
         #endregion
     }

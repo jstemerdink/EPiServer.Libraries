@@ -23,14 +23,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
-using System.IO;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Text;
-using System.Web;
 
 using EPiServer.Core;
 using EPiServer.Core.Html;
@@ -38,76 +33,65 @@ using EPiServer.DataAbstraction;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Libraries.SEO.DataAnnotations;
-using EPiServer.Libraries.SEO.Models;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
 
 using log4net;
 
-using Newtonsoft.Json;
-
 namespace EPiServer.Libraries.SEO
 {
     /// <summary>
-    /// Class SEOInitialization.
+    ///     Class SEOInitialization.
     /// </summary>
     [InitializableModule]
     [ModuleDependency(typeof(FrameworkInitialization))]
     public class SEOInitialization : IInitializableModule
     {
+        #region Static Fields
+
+        /// <summary>
+        ///     The logger
+        /// </summary>
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(SEOInitialization));
+
+        #endregion
+
         #region Properties
 
         /// <summary>
-        /// Gets or sets the content type respository.
-        /// </summary>
-        /// <value>The content type respository.</value>
-        protected Injected<IContentTypeRepository> ContentTypeRepository { get; set; }
-
-        /// <summary>
-        /// Gets or sets the content repository.
+        ///     Gets or sets the content repository.
         /// </summary>
         /// <value>The content repository.</value>
         protected Injected<IContentRepository> ContentRepository { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum items.
+        ///     Gets or sets the content type respository.
         /// </summary>
-        /// <value>The maximum items.</value>
-        private int MaxItems { get; set; }
+        /// <value>The content type respository.</value>
+        protected Injected<IContentTypeRepository> ContentTypeRepository { get; set; }
 
-        /// <summary>
-        /// Gets or sets the alchemy key.
-        /// </summary>
-        /// <value>The alchemy key.</value>
-        private string AlchemyKey { get; set; }
-
-        #endregion
-
-        #region Static Fields
-
-        /// <summary>
-        /// The logger
-        /// </summary>
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(SEOInitialization));
+        protected Injected<IExtractionService> ExtractionService { get; set; }
 
         #endregion
 
         #region Public Methods and Operators
 
         /// <summary>
-        /// Initializes this instance.
+        ///     Initializes this instance.
         /// </summary>
         /// <param name="context">The context.</param>
-        /// <remarks>Gets called as part of the EPiServer Framework initialization sequence. Note that it will be called
-        /// only once per AppDomain, unless the method throws an exception. If an exception is thrown, the initialization
-        /// method will be called repeadetly for each request reaching the site until the method succeeds.</remarks>
+        /// <remarks>
+        ///     Gets called as part of the EPiServer Framework initialization sequence. Note that it will be called
+        ///     only once per AppDomain, unless the method throws an exception. If an exception is thrown, the initialization
+        ///     method will be called repeadetly for each request reaching the site until the method succeeds.
+        /// </remarks>
         public void Initialize(InitializationEngine context)
         {
             DataFactory.Instance.PublishingPage += this.OnPublishingPage;
         }
 
         /// <summary>
-        /// Raises the page event.
+        ///     Raises the page event.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="pageEventArgs">Event information to send to registered event handlers.</param>
@@ -132,19 +116,21 @@ namespace EPiServer.Libraries.SEO
                 return;
             }
 
-            this.GetSettings();
-
-            if (string.IsNullOrWhiteSpace(this.AlchemyKey))
-            {
-                Logger.Info("[SEO] Alchemy API key not set.");
-                return;
-            }
-
             IEnumerable<string> props = GetSearchablePropertyValues(page, page.ContentTypeID);
 
             string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", props), 0);
 
-            List<string> keywordList = TextGetRankedKeywords(textToAnalyze);
+            ReadOnlyCollection<string> keywordList = new ReadOnlyCollection<string>(new List<string>());
+
+            try
+            {
+                keywordList = this.ExtractionService.Service.GetKeywords(textToAnalyze);
+            }
+            catch (ActivationException activationException)
+            {
+                Logger.Error("[SEO] No extraction service available", activationException);
+                return;
+            }
 
             if (keywordList.Count == 0)
             {
@@ -166,27 +152,35 @@ namespace EPiServer.Libraries.SEO
         }
 
         /// <summary>
-        /// Preloads the module.
+        ///     Preloads the module.
         /// </summary>
         /// <param name="parameters">The parameters.</param>
-        /// <remarks>This method is only available to be compatible with "AlwaysRunning" applications in .NET 4 / IIS 7.
-        /// It currently serves no purpose.</remarks>
+        /// <remarks>
+        ///     This method is only available to be compatible with "AlwaysRunning" applications in .NET 4 / IIS 7.
+        ///     It currently serves no purpose.
+        /// </remarks>
         public void Preload(string[] parameters)
         {
         }
 
         /// <summary>
-        /// Resets the module into an uninitialized state.
+        ///     Resets the module into an uninitialized state.
         /// </summary>
         /// <param name="context">The context.</param>
-        /// <remarks><para>
-        /// This method is usually not called when running under a web application since the web app may be shut down very
-        /// abruptly, but your module should still implement it properly since it will make integration and unit testing
-        /// much simpler.
-        /// </para>
-        /// <para>
-        /// Any work done by <see cref="M:EPiServer.Framework.IInitializableModule.Initialize(EPiServer.Framework.Initialization.InitializationEngine)" /> as well as any code executing on <see cref="E:EPiServer.Framework.Initialization.InitializationEngine.InitComplete" /> should be reversed.
-        /// </para></remarks>
+        /// <remarks>
+        ///     <para>
+        ///         This method is usually not called when running under a web application since the web app may be shut down very
+        ///         abruptly, but your module should still implement it properly since it will make integration and unit testing
+        ///         much simpler.
+        ///     </para>
+        ///     <para>
+        ///         Any work done by
+        ///         <see
+        ///             cref="M:EPiServer.Framework.IInitializableModule.Initialize(EPiServer.Framework.Initialization.InitializationEngine)" />
+        ///         as well as any code executing on
+        ///         <see cref="E:EPiServer.Framework.Initialization.InitializationEngine.InitComplete" /> should be reversed.
+        ///     </para>
+        /// </remarks>
         public void Uninitialize(InitializationEngine context)
         {
             DataFactory.Instance.PublishingPage -= this.OnPublishingPage;
@@ -197,7 +191,7 @@ namespace EPiServer.Libraries.SEO
         #region Methods
 
         /// <summary>
-        /// Gets the name of the key word property.
+        ///     Gets the name of the key word property.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <returns>PropertyInfo.</returns>
@@ -205,12 +199,12 @@ namespace EPiServer.Libraries.SEO
         {
             PropertyInfo keywordsMetatagProperty =
                 page.GetType().GetProperties().Where(HasAttribute<KeywordsMetaTagAttribute>).FirstOrDefault();
-            
+
             return keywordsMetatagProperty;
         }
 
         /// <summary>
-        /// Determines whether the specified self has attribute.
+        ///     Determines whether the specified self has attribute.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="propertyInfo">The propertyInfo.</param>
@@ -223,55 +217,7 @@ namespace EPiServer.Libraries.SEO
         }
 
         /// <summary>
-        /// Get ranked keywords.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        /// <returns>List&lt;System.String&gt;.</returns>
-        private List<string> TextGetRankedKeywords(string text)
-        {
-            try
-            {
-                string uri = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "http://access.alchemyapi.com/calls/text/TextGetRankedKeywords?apikey={0}&text={1}&maxRetrieve={2}&keywordExtractMode=strict&outputMode=json",
-                    this.AlchemyKey,
-                    HttpUtility.UrlEncode(text),
-                    this.MaxItems);
-
-                WebRequest translationWebRequest = WebRequest.Create(uri);
-                translationWebRequest.Method = "POST";
-
-                WebResponse response = translationWebRequest.GetResponse();
-                Stream stream = response.GetResponseStream();
-                Encoding encode = Encoding.GetEncoding("utf-8");
-
-                if (stream == null)
-                {
-                    return null;
-                }
-
-                StreamReader translatedStream = new StreamReader(stream, encode);
-                string json = translatedStream.ReadToEnd();
-
-                AlchemyResponse alchemyResponse = JsonConvert.DeserializeObject<AlchemyResponse>(json);
-
-                return alchemyResponse.status.Equals("error", StringComparison.OrdinalIgnoreCase)
-                           ? new List<string>()
-                           : alchemyResponse.keywords
-                                    .Where(k => k.relevance >= 0.5)
-                                    .OrderByDescending(k => k.relevance)
-                                    .Select(keyword => keyword.text)
-                                    .ToList();
-            }
-            catch (Exception exception)
-            {
-                Logger.Error("[SEO] Error getting keywords from Alchemy", exception);
-                return new List<string>();
-            }
-        }
-
-        /// <summary>
-        /// Gets the searchable property values.
+        ///     Gets the searchable property values.
         /// </summary>
         /// <param name="contentData">The content data.</param>
         /// <param name="contentType">Type of the content.</param>
@@ -308,7 +254,7 @@ namespace EPiServer.Libraries.SEO
         }
 
         /// <summary>
-        /// Gets the searchable property values.
+        ///     Gets the searchable property values.
         /// </summary>
         /// <param name="contentData">The content data.</param>
         /// <param name="contentTypeID">The content type identifier.</param>
@@ -318,36 +264,6 @@ namespace EPiServer.Libraries.SEO
             return this.GetSearchablePropertyValues(contentData, this.ContentTypeRepository.Service.Load(contentTypeID));
         }
 
-        private void GetSettings()
-        {
-            const int maxItems = 20;
-            string alchemyKey = ConfigurationManager.AppSettings["seo.alchemy.key"];
-
-            PageData startPageData = this.ContentRepository.Service.Get<PageData>(ContentReference.StartPage);
-
-            PropertyInfo keywordSettingsProperty =
-                startPageData.GetType().GetProperties().Where(HasAttribute<KeywordGenerationSettingsAttribute>).FirstOrDefault();
-
-            if (keywordSettingsProperty == null)
-            {
-                this.MaxItems = maxItems;
-                this.AlchemyKey = alchemyKey;
-                return;
-            }
-
-            KeywordGenerationSettingsBlock keywordGenerationSettings =
-                startPageData[keywordSettingsProperty.Name] as KeywordGenerationSettingsBlock;
-
-            if (keywordGenerationSettings == null)
-            {
-                this.MaxItems = maxItems;
-                this.AlchemyKey = alchemyKey;
-                return;
-            }
-
-            this.MaxItems = keywordGenerationSettings.MaxItems > 0 ? keywordGenerationSettings.MaxItems : maxItems;
-            this.AlchemyKey = !string.IsNullOrWhiteSpace(keywordGenerationSettings.AlchemyKey) ? keywordGenerationSettings.AlchemyKey : alchemyKey;
-        }
         #endregion
     }
 }

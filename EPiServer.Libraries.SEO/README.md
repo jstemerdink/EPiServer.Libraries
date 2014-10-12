@@ -1,14 +1,17 @@
-﻿# Add keywords to your page through Alchemy.
+﻿# Add keywords to your page through a provider.
 
 By Jeroen Stemerdink
 
 ## About
 
-Add an Alchemy API key to your appsettings ```<add key="seo.alchemy.key" value="YourKey" />```
-Alchemy will analyze your content marked Searchable and they keywords it returns will be added to
-the content of the property marked with ```[KeywordsMetaTag]``.
+Analyze content on your page (marked Searchable), including used blocks, and add them to your keywords property,
+which you need to mark with the ```[KeywordsMetaTag]``` attribute.
 
-Note that not all languages are supported by Alchemy (http://www.alchemyapi.com/)
+## NOTE
+The service you want to use needs to be injected.
+You can use either the Alchemy provider I created in ```EPiServer.Libraries.SEO.Alchemy```. 
+Or write your own for the service you would like to use. In that case you will need to implement  ```IExtractionService``` and add the following attribute to your class ```[ServiceConfiguration(typeof(IExtractionService))]``` 
+
 
 ## Requirements
 

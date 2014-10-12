@@ -20,7 +20,9 @@ By Jeroen Stemerdink
 
 [WebControls for EPiServer 7. ](EPiServer.Libraries.Controls/README.md)
 
-[Add keywords to your pages through Alchemy](EPiServer.Libraries.SEO/README.md)
+[Add keywords to your pages through a provider](EPiServer.Libraries.SEO/README.md)
+
+[Add keywords to your pages through Alchemy](EPiServer.Libraries.SEO.Alchemy/README.md)
 
 [Add block content to the index](EPiServer.Libraries.BlockSearch/README.md)
 
