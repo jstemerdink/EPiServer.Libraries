@@ -70,6 +70,10 @@ namespace EPiServer.Libraries.SEO
         /// <value>The content type respository.</value>
         protected Injected<IContentTypeRepository> ContentTypeRepository { get; set; }
 
+        /// <summary>
+        /// Gets or sets the extraction service.
+        /// </summary>
+        /// <value>The extraction service.</value>
         protected Injected<IExtractionService> ExtractionService { get; set; }
 
         #endregion
@@ -120,7 +124,7 @@ namespace EPiServer.Libraries.SEO
 
             string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", props), 0);
 
-            ReadOnlyCollection<string> keywordList = new ReadOnlyCollection<string>(new List<string>());
+            ReadOnlyCollection<string> keywordList;
 
             try
             {
