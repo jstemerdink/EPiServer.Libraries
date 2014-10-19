@@ -94,10 +94,7 @@ namespace EPiServer.Libraries.Localization.Models
         {
             get
             {
-                IEnumerable<CultureInfo> availableLanguages =
-                    DataFactory.Instance.GetLanguageBranches(ContentReference.StartPage)
-                        .Select(pageData => pageData.Language)
-                        .ToList();
+                IEnumerable<CultureInfo> availableLanguages = TranslationFactory.Instance.LocalizationProvider.AvailableLanguages;
 
                 PageDataCollection allLanguages = DataFactory.Instance.GetLanguageBranches(this.PageLink);
 
@@ -137,6 +134,11 @@ namespace EPiServer.Libraries.Localization.Models
         {
             get
             {
+                if (PageReference.IsNullOrEmpty(PageLink))
+                {
+                    return new Dictionary<string, string>();
+                }
+
                 PageDataCollection allLanguages = DataFactory.Instance.GetLanguageBranches(this.PageLink);
 
                 return
