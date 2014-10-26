@@ -8,6 +8,14 @@ By Jeroen Stemerdink
 
 [A Bing translation plugin for the localization provider](EPi.Libraries.Localization.Bing/README.md)
 
+[Add keywords to your pages through a provider](EPiServer.Libraries.SEO/README.md)
+
+[Add keywords to your pages through Alchemy](EPiServer.Libraries.SEO.Alchemy/README.md)
+
+[Add block content to the index](EPiServer.Libraries.BlockSearch/README.md)
+
+## These still need to be upgraded
+
 [Enable different outputs for PageData, through a url segment](EPiServer.Libraries.Output/README.md)
 
 [Enable different outputs for PageData, through DisplayChannels](EPiServer.Libraries.Output.Channels/README.md)
@@ -22,9 +30,5 @@ By Jeroen Stemerdink
 
 [WebControls for EPiServer 7. ](EPiServer.Libraries.Controls/README.md)
 
-[Add keywords to your pages through a provider](EPiServer.Libraries.SEO/README.md)
 
-[Add keywords to your pages through Alchemy](EPiServer.Libraries.SEO.Alchemy/README.md)
-
-[Add block content to the index](EPiServer.Libraries.BlockSearch/README.md)
 
