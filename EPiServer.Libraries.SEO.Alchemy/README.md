@@ -4,7 +4,7 @@ By Jeroen Stemerdink
 
 ## About
 
-Add EPiServer.Libraries.SEO to your project. When you add this, the service will be injected into the functionality of the main module.
+Add EPi.Libraries.SEO to your project. When you add this, the service will be injected into the functionality of the main module.
 
 Next add an Alchemy API key to your appsettings ```<add key="seo.alchemy.key" value="YourKey" />```
 Alchemy will analyze your content marked Searchable and they keywords it returns will be added to

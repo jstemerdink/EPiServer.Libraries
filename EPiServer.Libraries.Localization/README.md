@@ -20,7 +20,7 @@ The provider gets initialiazed through an IInitializableModule,```TranslationPro
 
 You start with creating a ```TranslationContainer``` underneath the ```StartPage```, or wherever you want. 
 
-If you want to put the container somewhere else, you will need to set a property of type ```PageReference``` on the ```StartPage```, surprisingly named ```TranslationContainer```.
+If you want to put the container somewhere else, you will need to set a property of type ```PageReference``` on the ```StartPage```, and add an atrribute ``` [TranslationContaine]```.
 
 Create containers or translation items beneath the main translation container. 
 

@@ -23,28 +23,28 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Runtime.Serialization.Json;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 
+using EPi.Libraries.Localization.DataAnnotations;
+using EPi.Libraries.Localization.Models;
+
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAccess;
-using EPiServer.Libraries.Localization.Models;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
 
 using log4net;
 
-namespace EPiServer.Libraries.Localization
+namespace EPi.Libraries.Localization
 {
     /// <summary>
     ///     The TranslationFactory class, used for translation queries.
@@ -57,17 +57,6 @@ namespace EPiServer.Libraries.Localization
         ///     The backup xml, to be returned when something goes wrong.
         /// </summary>
         private const string BackupXML = @"<?xml version='1.0' encoding='utf-8'?><languages></languages>";
-
-        /// <summary>
-        ///     The url to Bing authentication
-        /// </summary>
-        private const string TranslatorAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
-
-        /// <summary>
-        ///     The url to Bing translation
-        /// </summary>
-        private const string TranslatorUri =
-            "http://api.microsofttranslator.com/v2/Http.svc/Translate?text={0}&from={1}&to={2}";
 
         #endregion
 
@@ -94,23 +83,8 @@ namespace EPiServer.Libraries.Localization
 
         /// <summary>
         ///     The available languages
-        /// </summary>
+        /// </summary>s
         private IEnumerable<CultureInfo> availableLanguages;
-
-        /// <summary>
-        ///     The bing access token
-        /// </summary>
-        private BingAccessToken bingAccessToken;
-
-        /// <summary>
-        ///     The bing client identifier
-        /// </summary>
-        private string bingClientID;
-
-        /// <summary>
-        ///     The bing client secret
-        /// </summary>
-        private string bingClientSecret;
 
         /// <summary>
         ///     The content repository
@@ -174,43 +148,6 @@ namespace EPiServer.Libraries.Localization
         }
 
         /// <summary>
-        ///     Gets the Bing access token.
-        /// </summary>
-        /// <value>The adm access token.</value>
-        public BingAccessToken BingAccessToken
-        {
-            get
-            {
-                return this.bingAccessToken ?? (this.bingAccessToken = this.GetAccesToken());
-            }
-        }
-
-        /// <summary>
-        ///     Gets the Bing client identifier.
-        /// </summary>
-        /// <value>The Bing client identifier.</value>
-        public string BingClientID
-        {
-            get
-            {
-                return this.bingClientID
-                       ?? (this.bingClientID = ConfigurationManager.AppSettings["localization.bing.clientid"]);
-            }
-        }
-
-        /// <summary>
-        ///     Gets the Bing client identifier.
-        /// </summary>
-        /// <value>The Bing client identifier.</value>
-        public string BingClientSecret
-        {
-            get
-            {
-                return this.bingClientSecret ?? (this.bingClientSecret = ConfigurationManager.AppSettings["localization.bing.clientsecret"]);
-            }
-        }
-
-        /// <summary>
         ///     Gets the reference to the translation container.
         /// </summary>
         public PageReference TranslationContainerReference
@@ -219,6 +156,52 @@ namespace EPiServer.Libraries.Localization
             {
                 return this.translationContainerReference
                        ?? (this.translationContainerReference = this.GetTranslationContainer());
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether [a translation service is activated].
+        /// </summary>
+        private bool? translationServiceActivated;
+
+        /// <summary>
+        /// Gets a value indicating whether [a translation service is activated].
+        /// </summary> 
+        /// <value><c>true</c> if [translation service activated]; otherwise, <c>false</c>.</value>
+        public bool TranslationServiceActivated
+        {
+            get
+            {
+                return this.translationServiceActivated
+                       ?? (this.translationServiceActivated = this.TranslationService != null).Value;
+            }
+        }
+
+        /// <summary>
+        /// The translation service
+        /// </summary>
+        private ITranslationService translationService;
+
+        /// <summary>
+        ///     Gets or sets the translation service.
+        /// </summary>
+        /// <value>The translation service.</value>
+        private ITranslationService TranslationService
+        {
+            get
+            {
+
+                try
+                {
+                    return this.translationService
+                       ?? (this.translationService = ServiceLocator.Current.GetInstance<ITranslationService>());
+                }
+                catch (ActivationException activationException)
+                {
+                    Logger.Error("[Localization] No translation service available", activationException);
+                }
+
+                return null;
             }
         }
 
@@ -304,7 +287,7 @@ namespace EPiServer.Libraries.Localization
         /// <param name="page">The page.</param>
         public void TranslateThemAll(PageData page)
         {
-            if (this.BingAccessToken == null)
+            if (!this.TranslationServiceActivated)
             {
                 return;
             }
@@ -413,47 +396,6 @@ namespace EPiServer.Libraries.Localization
             }
         }
 
-        private string BingTranslate(string tobetranslated, string fromLang, string toLang)
-        {
-            string headerValue = string.Format(
-                CultureInfo.InvariantCulture,
-                "Bearer {0}",
-                this.BingAccessToken.access_token);
-
-            string uri = string.Format(
-                CultureInfo.InvariantCulture,
-                TranslatorUri,
-                HttpUtility.UrlEncode(tobetranslated),
-                fromLang,
-                toLang);
-
-            try
-            {
-                WebRequest translationWebRequest = WebRequest.Create(uri);
-                translationWebRequest.Headers.Add("Authorization", headerValue);
-
-                WebResponse response = translationWebRequest.GetResponse();
-                Stream stream = response.GetResponseStream();
-                Encoding encode = Encoding.GetEncoding("utf-8");
-
-                if (stream == null)
-                {
-                    return null;
-                }
-
-                StreamReader translatedStream = new StreamReader(stream, encode);
-                XmlDocument xTranslation = new XmlDocument();
-                xTranslation.LoadXml(translatedStream.ReadToEnd());
-
-                return xTranslation.InnerText;
-            }
-            catch (Exception exception)
-            {
-                Logger.Error("[Localization] Error getting translations from Bing", exception);
-                return null;
-            }
-        }
-
         private void CreateLanguageBranch(PageData page, string languageBranch)
         {
             // Check if language already exists
@@ -478,12 +420,12 @@ namespace EPiServer.Libraries.Localization
                 languageItemVersion.PageName = page.PageName;
                 languageItemVersion.URLSegment = page.URLSegment;
 
-                string translatedText = this.BingTranslate(
+                string translatedText = this.TranslationService.Translate(
                     translationItem.OriginalText,
                     page.LanguageID.Split(new char['-'])[0],
                     languageItemVersion.LanguageID.Split(new char['-'])[0]);
 
-                if (translatedText == null)
+                if (string.IsNullOrWhiteSpace(translatedText))
                 {
                     return;
                 }
@@ -505,55 +447,6 @@ namespace EPiServer.Libraries.Localization
                 languageVersion.URLSegment = page.URLSegment;
 
                 this.ContentRepository.Save(languageVersion, SaveAction.Publish, AccessLevel.NoAccess);
-            }
-        }
-
-        private BingAccessToken GetAccesToken()
-        {
-            if (string.IsNullOrWhiteSpace(this.BingClientID) | string.IsNullOrWhiteSpace(this.BingClientSecret))
-            {
-                return null;
-            }
-
-            string requestDetails = string.Format(
-                CultureInfo.InvariantCulture,
-                "grant_type=client_credentials&client_id={0}&client_secret={1} &scope=http://api.microsofttranslator.com",
-                HttpUtility.UrlEncode(this.BingClientID),
-                HttpUtility.UrlEncode(this.BingClientSecret));
-
-            byte[] bytes = Encoding.ASCII.GetBytes(requestDetails);
-
-            try
-            {
-                WebRequest webRequest = WebRequest.Create(TranslatorAccessUri);
-                webRequest.ContentType = "application/x-www-form-urlencoded";
-                webRequest.Method = "POST";
-                webRequest.ContentLength = bytes.Length;
-
-                using (Stream outputStream = webRequest.GetRequestStream())
-                {
-                    outputStream.Write(bytes, 0, bytes.Length);
-                }
-
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(BingAccessToken));
-
-                WebResponse webResponse = webRequest.GetResponse();
-
-                Stream responseStream = webResponse.GetResponseStream();
-
-                if (responseStream == null)
-                {
-                    return null;
-                }
-
-                BingAccessToken token = (BingAccessToken)serializer.ReadObject(responseStream);
-
-                return token;
-            }
-            catch (Exception exception)
-            {
-                Logger.Error("[Localization] Error getting authentication from Bing", exception);
-                return null;
             }
         }
 
@@ -591,9 +484,22 @@ namespace EPiServer.Libraries.Localization
                 return PageReference.EmptyReference;
             }
 
+            ContentData startPageData = this.ContentRepository.Get<ContentData>(ContentReference.StartPage);
+
+            PropertyInfo translationContainerProperty = GetTranslationContainerProperty(startPageData);
+
+            if (translationContainerProperty == null)
+            {
+                return null;
+            }
+
+            if (translationContainerProperty.PropertyType != typeof(PageReference))
+            {
+                return null;
+            }
+
             PageReference containerPageReference =
-                this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
-                    .GetPropertyValue("TranslationContainer", ContentReference.StartPage);
+                startPageData.GetPropertyValue(translationContainerProperty.Name, ContentReference.StartPage);
 
             if (containerPageReference != ContentReference.StartPage)
             {
@@ -617,6 +523,32 @@ namespace EPiServer.Libraries.Localization
             containerPageReference = containerReference.PageLink;
 
             return containerPageReference;
+        }
+
+        /// <summary>
+        /// Gets the name of the translation container property.
+        /// </summary>
+        /// <param name="page">The page.</param>
+        /// <returns>System.Reflection.PropertyInfo</returns>
+        private static PropertyInfo GetTranslationContainerProperty(ContentData page)
+        {
+            PropertyInfo translationContainerProperty =
+                page.GetType().GetProperties().Where(HasAttribute<TranslationContainerAttribute>).FirstOrDefault();
+
+            return translationContainerProperty;
+        }
+
+        /// <summary>
+        /// Determines whether the specified self has attribute.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="propertyInfo">The propertyInfo.</param>
+        /// <returns><c>true</c> if the specified self has attribute; otherwise, <c>false</c>.</returns>
+        private static bool HasAttribute<T>(PropertyInfo propertyInfo) where T : Attribute
+        {
+            T attr = (T)Attribute.GetCustomAttribute(propertyInfo, typeof(T));
+
+            return attr != null;
         }
 
         #endregion

@@ -6,6 +6,8 @@ By Jeroen Stemerdink
 
 [A custom localization provider](EPiServer.Libraries.Localization/README.md)
 
+[A Bing translation plugin for the localization provider](EPi.Libraries.Localization.Bing/README.md)
+
 [Enable different outputs for PageData, through a url segment](EPiServer.Libraries.Output/README.md)
 
 [Enable different outputs for PageData, through DisplayChannels](EPiServer.Libraries.Output.Channels/README.md)

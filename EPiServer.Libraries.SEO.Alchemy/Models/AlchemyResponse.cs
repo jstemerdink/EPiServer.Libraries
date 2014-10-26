@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-namespace EPiServer.Libraries.SEO.Alchemy.Models
+namespace EPi.Libraries.SEO.Alchemy.Models
 {
     /// <summary>
     /// Class AlchemyResponse.

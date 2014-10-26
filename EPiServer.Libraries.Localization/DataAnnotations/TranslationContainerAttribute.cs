@@ -21,38 +21,29 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-namespace EPiServer.Libraries.Localization.Models
+using System;
+
+namespace EPi.Libraries.Localization.DataAnnotations
 {
     /// <summary>
-    ///     Class BingAccessToken.
+    ///     Class TranslationContainerAttribute. This class cannot be inherited.
     /// </summary>
-    public class BingAccessToken
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class TranslationContainerAttribute : Attribute
     {
         #region Public Properties
 
         /// <summary>
-        ///     Gets or sets the access_token.
+        ///     Gets a value indicating whether the property is used for as the translation container.
         /// </summary>
-        /// <value>The access_token.</value>
-        public string access_token { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the expires_in.
-        /// </summary>
-        /// <value>The expires_in.</value>
-        public string expires_in { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the scope.
-        /// </summary>
-        /// <value>The scope.</value>
-        public string scope { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the token_type.
-        /// </summary>
-        /// <value>The token_type.</value>
-        public string token_type { get; set; }
+        /// <value><c>true</c> if [the property is used for as the translation container]; otherwise, <c>false</c>.</value>
+        public static bool TranslationContainer
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         #endregion
     }

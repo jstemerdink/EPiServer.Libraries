@@ -23,7 +23,7 @@
 
 using System.Collections.ObjectModel;
 
-namespace EPiServer.Libraries.SEO
+namespace EPi.Libraries.SEO
 {
     /// <summary>
     ///     Interface IExtractionService

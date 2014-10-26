@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -8,11 +7,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 using log4net.Config;
 
-[assembly: AssemblyTitle("EPiServer.Libraries.SEO.Alchemy")]
+[assembly: AssemblyTitle("EPi.Libraries.SEO.Alchemy")]
 [assembly: AssemblyDescription("Alchemy provider for extracting keywords from text.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jeroen Stemerdink")]
-[assembly: AssemblyProduct("EPiServer.Libraries.SEO.Alchemy")]
+[assembly: AssemblyProduct("EPi.Libraries.SEO.Alchemy")]
 [assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

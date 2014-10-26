@@ -18,7 +18,7 @@ namespace EPiServer.Libraries.UnitTests.Models
     /// </summary>
     [ContentType(GUID = "{BE6C87B7-19D9-4C79-B089-AA6A1FB98F96}", AvailableInEditMode = true, 
         Description = "Output test item", DisplayName = "Output", GroupName = "Output")]
-    [AvailablePageTypes(Exclude = new[] { typeof(PageData) })]
+    [AvailableContentTypes(Exclude = new[] { typeof(PageData) })]
     public class OutputItem : PageData
     {
         #region Public Properties

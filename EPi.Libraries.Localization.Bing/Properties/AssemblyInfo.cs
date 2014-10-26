@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
 using log4net.Config;
 
-[assembly: AssemblyTitle("EPi.Libraries.SEO")]
-[assembly: AssemblyDescription("Library with helpers for SEO.")]
+[assembly: AssemblyTitle("EPi.Libraries.Localization.Bing")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jeroen Stemerdink")]
-[assembly: AssemblyProduct("EPi.Libraries.SEO")]
+[assembly: AssemblyProduct("EPi.Libraries.Localization.Bing")]
 [assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -16,11 +21,10 @@ using log4net.Config;
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
-
 [assembly: CLSCompliant(true)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("accee68a-e522-462f-a438-34a7a1864ed9")]
+[assembly: Guid("1ea2bad2-043f-4b61-beb8-e17111bbf3b9")]
 
 // Version information for an assembly consists of the following four values:
 //

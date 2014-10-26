@@ -27,18 +27,20 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 
+using EPi.Libraries.SEO.DataAnnotations;
+
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.Core.Html;
 using EPiServer.DataAbstraction;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
-using EPiServer.Libraries.SEO.DataAnnotations;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
 
 using log4net;
 
-namespace EPiServer.Libraries.SEO
+namespace EPi.Libraries.SEO
 {
     /// <summary>
     ///     Class SEOInitialization.
@@ -120,7 +122,7 @@ namespace EPiServer.Libraries.SEO
                 return;
             }
 
-            IEnumerable<string> props = GetSearchablePropertyValues(page, page.ContentTypeID);
+            IEnumerable<string> props = this.GetSearchablePropertyValues(page, page.ContentTypeID);
 
             string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", props), 0);
 

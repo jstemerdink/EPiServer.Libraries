@@ -23,7 +23,7 @@
 
 using System;
 
-namespace EPiServer.Libraries.SEO.DataAnnotations
+namespace EPi.Libraries.SEO.DataAnnotations
 {
     /// <summary>
     ///     Class KeywordsMetaTagAttribute. This class cannot be inherited.

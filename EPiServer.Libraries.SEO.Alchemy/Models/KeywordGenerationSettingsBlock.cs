@@ -27,7 +27,7 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 
-namespace EPiServer.Libraries.SEO.Alchemy.Models
+namespace EPi.Libraries.SEO.Alchemy.Models
 {
     /// <summary>
     ///     Class KeywordGenerationSettingsBlock.

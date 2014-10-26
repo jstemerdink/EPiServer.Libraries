@@ -27,17 +27,19 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+using EPi.Libraries.BlockSearch.DataAnnotations;
+
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.Core.Html;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAccess;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
-using EPiServer.Libraries.BlockSearch.DataAnnotations;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
 
-namespace EPiServer.Libraries.BlockSearch
+namespace EPi.Libraries.BlockSearch
 {
     /// <summary>
     /// Class SearchInitialization.

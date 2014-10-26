@@ -28,11 +28,12 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 
-namespace EPiServer.Libraries.Localization.Models
+namespace EPi.Libraries.Localization.Models
 {
     /// <summary>
     ///     The translation PageType.

@@ -9,7 +9,7 @@ which you need to mark with the ```[KeywordsMetaTag]``` attribute.
 
 ## NOTE
 The service you want to use needs to be injected.
-You can use either the Alchemy provider I created in ```EPiServer.Libraries.SEO.Alchemy```. 
+You can use either the Alchemy provider I created in ```EPi.Libraries.SEO.Alchemy```. 
 Or write your own for the service you would like to use. In that case you will need to implement  ```IExtractionService``` and add the following attribute to your class ```[ServiceConfiguration(typeof(IExtractionService))]``` 
 
 

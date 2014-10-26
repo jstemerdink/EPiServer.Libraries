@@ -98,10 +98,10 @@ namespace EPiServer.Libraries.UnitTests
         /// </summary>
         public CmsContext()
         {
-            ContentReference.RootPage = new PageReference(1);
+            ContentReference.RootPage = new PageReference(1).CreateWritableClone();
 
-            ContentReference.StartPage = new PageReference(4);
-
+            ContentReference.StartPage.CreateWritableClone().ID = 4;
+           
             this.StartPageUrl = "/";
 
             Context.Current = A.Fake<IContext>();
@@ -131,7 +131,7 @@ namespace EPiServer.Libraries.UnitTests
 
             A.CallTo(() => ServiceLocator.Current.GetInstance<TemplateResolver>()).Returns(this.TemplateResolver);
 
-            A.CallTo(() => this.UrlResolver.GetVirtualPath(ContentReference.StartPage)).Returns(this.StartPageUrl);
+            A.CallTo(() => this.UrlResolver.GetUrl(ContentReference.StartPage)).Returns(this.StartPageUrl);
 
             A.CallTo(() => ServiceLocator.Current.GetInstance<ProviderBasedLocalizationService>())
                 .Returns(this.ProviderBasedLocalizationService);

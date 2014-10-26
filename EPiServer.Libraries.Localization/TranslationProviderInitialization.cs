@@ -25,17 +25,19 @@ using System;
 using System.Collections.Specialized;
 using System.Linq;
 
+using EPi.Libraries.Localization.Models;
+
+using EPiServer;
 using EPiServer.Events;
 using EPiServer.Events.Clients;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Framework.Localization;
-using EPiServer.Libraries.Localization.Models;
 using EPiServer.ServiceLocation;
 
 using log4net;
 
-namespace EPiServer.Libraries.Localization
+namespace EPi.Libraries.Localization
 {
     /// <summary>
     ///     The initialization module for the translation provider.
@@ -336,7 +338,10 @@ namespace EPiServer.Libraries.Localization
                 return;
             }
 
-            TranslationFactory.Instance.TranslateThemAll(e.Page);
+            if (TranslationFactory.Instance.TranslationServiceActivated)
+            {
+                TranslationFactory.Instance.TranslateThemAll(e.Page);
+            }
 
             this.ReloadProvider();
 

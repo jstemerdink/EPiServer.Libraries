@@ -4,13 +4,14 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using EPi.Libraries.Localization;
+using EPi.Libraries.Localization.Models;
+
 namespace EPiServer.Libraries.UnitTests.Specs
 {
     using System.Collections.Specialized;
 
     using EPiServer.Core;
-    using EPiServer.Libraries.Localization;
-    using EPiServer.Libraries.Localization.Models;
 
     using Machine.Specifications;
     using Machine.Specifications.Annotations;

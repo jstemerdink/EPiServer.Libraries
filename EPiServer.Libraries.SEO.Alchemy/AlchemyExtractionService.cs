@@ -33,15 +33,17 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 
+using EPi.Libraries.SEO.Alchemy.Models;
+
+using EPiServer;
 using EPiServer.Core;
-using EPiServer.Libraries.SEO.Alchemy.Models;
 using EPiServer.ServiceLocation;
 
 using log4net;
 
 using Newtonsoft.Json;
 
-namespace EPiServer.Libraries.SEO.Alchemy
+namespace EPi.Libraries.SEO.Alchemy
 {
     /// <summary>
     ///     Class AlchemyExtractionService.

@@ -7,8 +7,8 @@
     <ProjectGuid>{0C99FD88-D1AB-4E21-9920-06853F77C6C5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EPiServer.Libraries.SEO.Alchemy</RootNamespace>
-    <AssemblyName>EPiServer.Libraries.SEO.Alchemy</AssemblyName>
+    <RootNamespace>EPi.Libraries.SEO.Alchemy</RootNamespace>
+    <AssemblyName>EPi.Libraries.SEO.Alchemy</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -23,7 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\EPiServer.Libraries.SEO.Alchemy.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\EPi.Libraries.SEO.Alchemy.xml</DocumentationFile>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Solution Files\EPiServer.Libraries.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -35,7 +35,7 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\EPiServer.Libraries.SEO.Alchemy.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\EPi.Libraries.SEO.Alchemy.xml</DocumentationFile>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Solution Files\EPiServer.Libraries.ruleset</CodeAnalysisRuleSet>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -177,9 +177,9 @@
     <Compile Include="Models\Sentiment.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EPiServer.Libraries.SEO\EPiServer.Libraries.SEO.csproj">
+    <ProjectReference Include="..\EPiServer.Libraries.SEO\EPi.Libraries.SEO.csproj">
       <Project>{b7da01f5-00af-4fac-aa86-5eb4f6f10802}</Project>
-      <Name>EPiServer.Libraries.SEO</Name>
+      <Name>EPi.Libraries.SEO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

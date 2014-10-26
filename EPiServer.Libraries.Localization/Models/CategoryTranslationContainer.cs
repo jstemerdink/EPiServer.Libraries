@@ -26,7 +26,7 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Filters;
 
-namespace EPiServer.Libraries.Localization.Models
+namespace EPi.Libraries.Localization.Models
 {
     /// <summary>
     ///     A container to hold translations for categories.
