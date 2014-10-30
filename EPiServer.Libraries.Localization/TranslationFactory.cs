@@ -506,6 +506,14 @@ namespace EPi.Libraries.Localization
                 return containerPageReference;
             }
 
+			PageReference containerPageReference =
+                this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
+                    .GetPropertyValue("TranslationContainer", ContentReference.StartPage);
+
+            if (containerPageReference != ContentReference.StartPage)
+            {
+                return containerPageReference;
+            }
             Logger.Info("[Localization] No translation container specified.");
 
             TranslationContainer containerReference =
