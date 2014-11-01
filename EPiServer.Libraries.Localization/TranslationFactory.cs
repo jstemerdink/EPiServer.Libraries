@@ -506,7 +506,7 @@ namespace EPi.Libraries.Localization
                 return containerPageReference;
             }
 
-			PageReference containerPageReference =
+			containerPageReference =
                 this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
                     .GetPropertyValue("TranslationContainer", ContentReference.StartPage);
 
