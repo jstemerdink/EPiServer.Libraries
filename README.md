@@ -8,9 +8,9 @@ By Jeroen Stemerdink
 
 [A Bing translation plugin for the localization provider](EPi.Libraries.Localization.Bing/README.md)
 
-[Add keywords to your pages through a provider](EPiServer.Libraries.SEO/README.md)
+[Add keywords to your pages through a provider](https://github.com/jstemerdink/EPi.Libraries.Keywords/tree/master/EPi.Libraries.Keywords)
 
-[Add keywords to your pages through Alchemy](EPiServer.Libraries.SEO.Alchemy/README.md)
+[Add keywords to your pages through Alchemy](https://github.com/jstemerdink/EPi.Libraries.Keywords/tree/master/EPi.Libraries.Keywords.Alchemy)
 
 [Add block content to the index](https://github.com/jstemerdink/EPiServer.Libraries.BlockSearch/blob/master/README.md)
 
