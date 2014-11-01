@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPi.Libraries.Localization", "EPiServer.Libraries.Localization\EPi.Libraries.Localization.csproj", "{4750AA22-03A8-48CB-A78E-32AE161C8C67}"
 EndProject
@@ -27,8 +27,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Controls", "EPiServer.Libraries.Controls\EPiServer.Libraries.Controls.csproj", "{40C1A396-6C29-40BA-AA46-48FE5A981ECF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPi.Libraries.SEO", "EPiServer.Libraries.SEO\EPi.Libraries.SEO.csproj", "{B7DA01F5-00AF-4FAC-AA86-5EB4F6F10802}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPi.Libraries.BlockSearch", "EPiServer.Libraries.BlockSearch\EPi.Libraries.BlockSearch.csproj", "{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPi.Libraries.SEO.Alchemy", "EPiServer.Libraries.SEO.Alchemy\EPi.Libraries.SEO.Alchemy.csproj", "{0C99FD88-D1AB-4E21-9920-06853F77C6C5}"
 EndProject
@@ -78,10 +76,6 @@ Global
 		{B7DA01F5-00AF-4FAC-AA86-5EB4F6F10802}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7DA01F5-00AF-4FAC-AA86-5EB4F6F10802}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7DA01F5-00AF-4FAC-AA86-5EB4F6F10802}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89ED9EAF-3E0C-4BBD-9F4A-5046EAA633F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0C99FD88-D1AB-4E21-9920-06853F77C6C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0C99FD88-D1AB-4E21-9920-06853F77C6C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C99FD88-D1AB-4E21-9920-06853F77C6C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
