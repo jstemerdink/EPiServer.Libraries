@@ -4,4 +4,4 @@ By Jeroen Stemerdink
 
 Moved to separate location on request.
 
-[https://github.com/jstemerdink/EPiServer.Libraries.BlockSearch](https://github.com/jstemerdink/EPiServer.Libraries.BlockSearch/blob/master/README.md)
+[https://github.com/jstemerdink/EPiServer.Libraries.BlockSearch](https://github.com/jstemerdink/EPiServer.Libraries.BlockSearch)
