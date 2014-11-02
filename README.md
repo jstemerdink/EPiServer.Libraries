@@ -12,7 +12,9 @@ By Jeroen Stemerdink
 
 [Add keywords to your pages through Alchemy](https://github.com/jstemerdink/EPi.Libraries.Keywords/tree/master/EPi.Libraries.Keywords.Alchemy)
 
-[Add block content to the index](https://github.com/jstemerdink/EPiServer.Libraries.BlockSearch/blob/master/README.md)
+[Add block content to the index](https://github.com/jstemerdink/EPiServer.Libraries.BlockSearch)
+
+[PostSharp Aspects or use with EPiServer 7](https://github.com/jstemerdink/EPi.Libraries.Aspects/)
 
 ## These still need to be upgraded
 
@@ -26,7 +28,7 @@ By Jeroen Stemerdink
 
 [Attach ContentProviders programmaticly](EPiServer.Libraries.ContentProviders/README.md)
 
-[PostSharp Aspects or use with EPiServer 7](EPiServer.Libraries.Aspects/README.md)
+
 
 [WebControls for EPiServer 7. ](EPiServer.Libraries.Controls/README.md)
 

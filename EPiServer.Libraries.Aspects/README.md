@@ -2,18 +2,8 @@
 
 By Jeroen Stemerdink
 
-## About
+Moved to a sperate project on request.
 
-With PostSharp you can simplify your code by moving frequently used actions into aspects.
+[https://github.com/jstemerdink/EPi.Libraries.Aspects](https://github.com/jstemerdink/EPi.Libraries.Aspects)
 
-## Requirements
 
-* EPiServer 7
-* .Net 4.0
-* PostSharp 3
-
-## Deploy
-
-* Add a reference to the project, or the compiled dll.
-* Add the attributes for the desired aspect to your method, class or assembly.
-* Build the solution.
