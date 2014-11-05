@@ -479,6 +479,22 @@ namespace EPi.Libraries.Localization
         /// </returns>
         private PageReference GetTranslationContainer()
         {
+            PageReference containerPageReference;
+
+            TranslationContainer containerReference =
+                this.ContentRepository.GetChildren<PageData>(ContentReference.RootPage)
+                    .OfType<TranslationContainer>()
+                    .FirstOrDefault();
+
+            if (containerReference != null)
+            {
+                Logger.Info("[Localization] First translation container used.");
+
+                containerPageReference = containerReference.PageLink;
+
+                return containerPageReference;
+            }
+
             if (PageReference.IsNullOrEmpty(ContentReference.StartPage))
             {
                 return PageReference.EmptyReference;
@@ -498,7 +514,7 @@ namespace EPi.Libraries.Localization
                 return null;
             }
 
-            PageReference containerPageReference =
+            containerPageReference =
                 startPageData.GetPropertyValue(translationContainerProperty.Name, ContentReference.StartPage);
 
             if (containerPageReference != ContentReference.StartPage)
@@ -506,7 +522,7 @@ namespace EPi.Libraries.Localization
                 return containerPageReference;
             }
 
-			containerPageReference =
+            containerPageReference =
                 this.ContentRepository.Get<ContentData>(ContentReference.StartPage)
                     .GetPropertyValue("TranslationContainer", ContentReference.StartPage);
 
@@ -516,21 +532,7 @@ namespace EPi.Libraries.Localization
             }
             Logger.Info("[Localization] No translation container specified.");
 
-            TranslationContainer containerReference =
-                this.ContentRepository.GetChildren<PageData>(containerPageReference)
-                    .OfType<TranslationContainer>()
-                    .FirstOrDefault();
-
-            if (containerReference == null)
-            {
-                return containerPageReference;
-            }
-
-            Logger.Info("[Localization] First translation container used.");
-
-            containerPageReference = containerReference.PageLink;
-
-            return containerPageReference;
+            
         }
 
         /// <summary>
