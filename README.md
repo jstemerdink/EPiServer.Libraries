@@ -12,7 +12,7 @@ By Jeroen Stemerdink
 
 [Add keywords to your pages through Alchemy](https://github.com/jstemerdink/EPi.Libraries.Keywords/tree/master/EPi.Libraries.Keywords.Alchemy)
 
-[Add block content to the index](https://github.com/jstemerdink/EPiServer.Libraries.BlockSearch)
+[Add block content to the index](https://github.com/jstemerdink/EPi.Libraries.BlockSearch)
 
 [PostSharp Aspects or use with EPiServer 7](https://github.com/jstemerdink/EPi.Libraries.Aspects/)
 
