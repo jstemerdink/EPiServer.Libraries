@@ -432,21 +432,20 @@ namespace EPiServer.Libraries.Localization
             {
                 WebRequest translationWebRequest = WebRequest.Create(uri);
                 translationWebRequest.Headers.Add("Authorization", headerValue);
-
-                WebResponse response = translationWebRequest.GetResponse();
-                Stream stream = response.GetResponseStream();
-                Encoding encode = Encoding.GetEncoding("utf-8");
-
-                if (stream == null)
+                using (WebResponse response = translationWebRequest.GetResponse())
                 {
-                    return null;
+                    Stream stream = response.GetResponseStream();
+                    if (stream == null)
+                    {
+                        return null;
+                    }
+                    using (StreamReader translatedStream = new StreamReader(stream, Encoding.UTF8))
+                    {
+                        XmlDocument xTranslation = new XmlDocument();
+                        xTranslation.LoadXml(translatedStream.ReadToEnd());
+                        return xTranslation.InnerText;
+                    }
                 }
-
-                StreamReader translatedStream = new StreamReader(stream, encode);
-                XmlDocument xTranslation = new XmlDocument();
-                xTranslation.LoadXml(translatedStream.ReadToEnd());
-
-                return xTranslation.InnerText;
             }
             catch (Exception exception)
             {
