@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4750AA22-03A8-48CB-A78E-32AE161C8C67}</ProjectGuid>
+    <ProjectGuid>{2E1EB866-E191-4B53-BE69-ACC3EA270B8A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EPi.Libraries.Localization</RootNamespace>
-    <AssemblyName>EPi.Libraries.Localization</AssemblyName>
+    <RootNamespace>EPiServer.Libraries.Localization</RootNamespace>
+    <AssemblyName>EPiServer.Libraries.Localization</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -26,7 +26,7 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Solution Files\EPiServer.Libraries.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\EPi.Libraries.Localization.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\EPiServer.Libraries.Localization.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,7 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\EPi.Libraries.Localization.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\EPiServer.Libraries.Localization.XML</DocumentationFile>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <CodeAnalysisRuleSet>..\Solution Files\EPiServer.Libraries.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -179,10 +179,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAnnotations\TranslationContainerAttribute.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HideCategoryEditorDescriptor.cs" />
-    <Compile Include="ITranslationService.cs" />
+    <Compile Include="Models\BingAccessToken.cs" />
     <Compile Include="Models\CategoryTranslationContainer.cs" />
     <Compile Include="Models\TranslationContainer.cs" />
     <Compile Include="Models\TranslationItem.cs" />
@@ -196,7 +195,6 @@
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

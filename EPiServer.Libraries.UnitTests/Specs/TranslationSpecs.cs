@@ -4,8 +4,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using EPi.Libraries.Localization;
-using EPi.Libraries.Localization.Models;
+using EPiServer.Libraries.Localization;
+using EPiServer.Libraries.Localization.Models;
 
 namespace EPiServer.Libraries.UnitTests.Specs
 {

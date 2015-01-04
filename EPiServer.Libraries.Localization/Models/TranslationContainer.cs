@@ -28,7 +28,7 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Filters;
 
-namespace EPi.Libraries.Localization.Models
+namespace EPiServer.Libraries.Localization.Models
 {
     /// <summary>
     ///     A container to hold translations.
@@ -93,7 +93,7 @@ namespace EPi.Libraries.Localization.Models
                 // Use explicitly set container name, otherwise fall back to page name
                 return !string.IsNullOrWhiteSpace(containerName)
                        ? containerName
-                       : this.PageName;
+                       : PageName;
             }
             set { this.SetPropertyValue(p => p.ContainerName, value); }
             

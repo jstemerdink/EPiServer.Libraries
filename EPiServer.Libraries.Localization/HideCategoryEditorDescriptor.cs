@@ -24,14 +24,13 @@
 using System;
 using System.Collections.Generic;
 
-using EPi.Libraries.Localization.Models;
-
 using EPiServer.Cms.Shell.UI.ObjectEditing;
 using EPiServer.Core;
+using EPiServer.Libraries.Localization.Models;
 using EPiServer.Shell.ObjectEditing;
 using EPiServer.Shell.ObjectEditing.EditorDescriptors;
 
-namespace EPi.Libraries.Localization
+namespace EPiServer.Libraries.Localization
 {
     /// <summary>
     /// Class HideCategoryEditorDescriptor.

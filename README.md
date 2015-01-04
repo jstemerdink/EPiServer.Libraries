@@ -4,15 +4,15 @@ By Jeroen Stemerdink
 
 ## Parts
 
-[A custom localization provider](EPiServer.Libraries.Localization/README.md)
+[A custom localization provider (Obsolete](EPiServer.Libraries.Localization/README.md)
 
-[A Bing translation plugin for the localization provider](EPi.Libraries.Localization.Bing/README.md)
+[A custom localization provider (new version)](https://github.com/jstemerdink/EPi.Libraries.Localization)
 
 [Add keywords to your pages through a provider](https://github.com/jstemerdink/EPi.Libraries.Keywords/tree/master/EPi.Libraries.Keywords)
 
 [Add keywords to your pages through Alchemy](https://github.com/jstemerdink/EPi.Libraries.Keywords/tree/master/EPi.Libraries.Keywords.Alchemy)
 
-[Add block content to the index](https://github.com/jstemerdink/EPiServer.Libraries.BlockSearch)
+[Add block content to the index](https://github.com/jstemerdink/EPi.Libraries.BlockSearch)
 
 [PostSharp Aspects or use with EPiServer 7](https://github.com/jstemerdink/EPi.Libraries.Aspects/)
 

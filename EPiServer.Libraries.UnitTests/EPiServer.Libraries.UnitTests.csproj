@@ -215,9 +215,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EPiServer.Libraries.Localization\EPi.Libraries.Localization.csproj">
-      <Project>{4750aa22-03a8-48cb-a78e-32ae161c8c67}</Project>
-      <Name>EPi.Libraries.Localization</Name>
+    <ProjectReference Include="..\EPiServer.Libraries.Localization\EPiServer.Libraries.Localization.csproj">
+      <Project>{2e1eb866-e191-4b53-be69-acc3ea270b8a}</Project>
+      <Name>EPiServer.Libraries.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\EPiServer.Libraries.Output.Channels\EPiServer.Libraries.Output.Channels.csproj">
       <Project>{44023c12-9883-41d9-8fc2-c42e6a6f3d12}</Project>

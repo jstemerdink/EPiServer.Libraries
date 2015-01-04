@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPi.Libraries.Localization", "EPiServer.Libraries.Localization\EPi.Libraries.Localization.csproj", "{4750AA22-03A8-48CB-A78E-32AE161C8C67}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.UnitTests", "EPiServer.Libraries.UnitTests\EPiServer.Libraries.UnitTests.csproj", "{55496069-853B-47C8-B54F-DF8DFB4231F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Output", "EPiServer.Libraries.Output\EPiServer.Libraries.Output.csproj", "{9A90CC8D-902A-4047-A2C8-0DF4238B07E3}"
@@ -22,11 +20,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.WebApi.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.ContentProviders", "EPiServer.Libraries.ContentProviders\EPiServer.Libraries.ContentProviders.csproj", "{1917A4E0-DFF1-4DCA-87D1-887524D6C900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Aspects", "EPiServer.Libraries.Aspects\EPiServer.Libraries.Aspects.csproj", "{74D1A13C-9454-4BAA-9A80-B0233800786E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Controls", "EPiServer.Libraries.Controls\EPiServer.Libraries.Controls.csproj", "{40C1A396-6C29-40BA-AA46-48FE5A981ECF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPi.Libraries.Localization.Bing", "EPi.Libraries.Localization.Bing\EPi.Libraries.Localization.Bing.csproj", "{EAE8D2BF-A3A6-4418-B49D-5FA5484D3BA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Libraries.Localization", "EPiServer.Libraries.Localization\EPiServer.Libraries.Localization.csproj", "{2E1EB866-E191-4B53-BE69-ACC3EA270B8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,10 +30,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4750AA22-03A8-48CB-A78E-32AE161C8C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4750AA22-03A8-48CB-A78E-32AE161C8C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4750AA22-03A8-48CB-A78E-32AE161C8C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4750AA22-03A8-48CB-A78E-32AE161C8C67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{55496069-853B-47C8-B54F-DF8DFB4231F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55496069-853B-47C8-B54F-DF8DFB4231F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A90CC8D-902A-4047-A2C8-0DF4238B07E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -60,18 +52,14 @@ Global
 		{1917A4E0-DFF1-4DCA-87D1-887524D6C900}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1917A4E0-DFF1-4DCA-87D1-887524D6C900}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1917A4E0-DFF1-4DCA-87D1-887524D6C900}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74D1A13C-9454-4BAA-9A80-B0233800786E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74D1A13C-9454-4BAA-9A80-B0233800786E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74D1A13C-9454-4BAA-9A80-B0233800786E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74D1A13C-9454-4BAA-9A80-B0233800786E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40C1A396-6C29-40BA-AA46-48FE5A981ECF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EAE8D2BF-A3A6-4418-B49D-5FA5484D3BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAE8D2BF-A3A6-4418-B49D-5FA5484D3BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAE8D2BF-A3A6-4418-B49D-5FA5484D3BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAE8D2BF-A3A6-4418-B49D-5FA5484D3BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E1EB866-E191-4B53-BE69-ACC3EA270B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E1EB866-E191-4B53-BE69-ACC3EA270B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E1EB866-E191-4B53-BE69-ACC3EA270B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E1EB866-E191-4B53-BE69-ACC3EA270B8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

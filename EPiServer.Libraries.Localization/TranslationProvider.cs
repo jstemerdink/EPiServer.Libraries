@@ -34,7 +34,7 @@ using EPiServer.Framework.Localization.XmlResources;
 
 using log4net;
 
-namespace EPi.Libraries.Localization
+namespace EPiServer.Libraries.Localization
 {
     /// <summary>
     ///     The translation provider.

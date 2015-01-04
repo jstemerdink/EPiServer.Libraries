@@ -38,5 +38,5 @@ using log4net.Config;
 [assembly: CLSCompliant(false)]
 [assembly: Guid("d6158e5e-1682-4753-9706-b26935a98ee8")]
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.1")]
 [assembly: XmlConfigurator(Watch = true)]
