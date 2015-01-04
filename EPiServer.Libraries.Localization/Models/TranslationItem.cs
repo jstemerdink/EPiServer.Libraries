@@ -32,6 +32,8 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 
+using Newtonsoft.Json;
+
 namespace EPiServer.Libraries.Localization.Models
 {
     /// <summary>
@@ -53,6 +55,7 @@ namespace EPiServer.Libraries.Localization.Models
         ///         <EPiServer:Translate runat="server" Text="/jeroenstemerdink/textone" />
         ///     ]]>
         /// </remarks>
+        [JsonIgnore]
         public string LookupKey
         {
             get
@@ -90,6 +93,7 @@ namespace EPiServer.Libraries.Localization.Models
         /// <summary>
         ///     Gets the missing translations for this item.
         /// </summary>
+        [JsonIgnore]
         public ReadOnlyCollection<string> MissingValues
         {
             get
@@ -133,6 +137,7 @@ namespace EPiServer.Libraries.Localization.Models
         /// <summary>
         ///     Gets the translated values for this item.
         /// </summary>
+        [JsonIgnore]
         public Dictionary<string, string> TranslatedValues
         {
             get
